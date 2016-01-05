@@ -3789,7 +3789,7 @@ class ilObjUser extends ilObject
 
 		// For compatibility, check for login (no ext_account entry given)
 		$res = $db->queryF("SELECT login FROM usr_data ".
-			"WHERE login = %s AND auth_mode = %s AND (ext_account IS NULL OR ext_account = '') ",
+			"WHERE login = %s AND auth_mode = %s",
 			array("text", "text"),
 			array($a_account, $a_auth));
 		if($usr = $db->fetchAssoc($res))
