@@ -1107,6 +1107,10 @@ class ilPersonalProfileGUI
 			}
 			$this->form->addItem($radg);
 			
+			//BEGIN PATCH HSLU Public Profile: Disable formelements for hiding the profile, mail or profile picture
+			$radg->setDisabled(true);
+			//END PATCH HSLU Public Profile: Disable formelements for hiding the profile, mail or profile picture
+			
 			// #11773
 			if ($ilSetting->get('user_portfolios'))
 			{
@@ -1235,6 +1239,13 @@ class ilPersonalProfileGUI
 				}
 				//$cb->setInfo($value);
 				$cb->setOptionTitle($value);
+				
+				//BEGIN PATCH HSLU Public Profile: Disable formelements for hiding the profile, mail or profile picture
+				if($caption == "personal_picture" || $caption == "email") 
+                                {
+                                        $cb->setDisabled(true);
+                                }
+                                //END PATCH HSLU Public Profile: Disable formelements for hiding the profile, mail or profile picture
 
 				if(!$parent)
 				{
@@ -1348,6 +1359,13 @@ class ilPersonalProfileGUI
 				{
 					$ilUser->setPref("public_".$value,"n");
 				}
+				
+				//BEGIN PATCH HSLU Public Profile: Set profile picture and email everytime on public
+				if($value == "upload" || $value == "email")
+				{
+				    $ilUser->setPref("public_".$value,"y");
+				}
+				//END PATCH HSLU Public Profile: Set profile picture and email everytime on public
 			}
 	
 			// additional defined user data fields
