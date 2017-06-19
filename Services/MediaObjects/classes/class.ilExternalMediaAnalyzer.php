@@ -45,6 +45,7 @@ class ilExternalMediaAnalyzer
 		return false;
 	}
 	
+	//PATCH HSLU To allow Youtube and SWITCHtube in Mediacast (all Variants of Youtube-links should work now
 	/**
 	* Extract YouTube Parameter
 	*/
@@ -56,17 +57,18 @@ class ilExternalMediaAnalyzer
 		if ($pos1 > 0)
 		{
 			$len = ($pos2 > 0)
-				? $pos2
-				: strlen($a_location);
+			? $pos2
+			: strlen($a_location);
 			$par["v"] = substr($a_location, $pos1+2, $len - ($pos1+2));
 		}
 		else if (strpos($a_location, "youtu.be") > 0)
 		{
 			$par["v"] = substr($a_location, strrpos($a_location, "/") + 1);
 		}
-
+		
 		return $par;
 	}
+	//END PATCH HSLU To allow Youtube and SWITCHtube in Mediacast
 
 	/**
 	* Identify Flickr links
@@ -177,11 +179,44 @@ class ilExternalMediaAnalyzer
 			$len = ($pos2 > 0)
 				? $pos2
 				: strlen($a_location);
-			$par["id"] = substr($a_location, $pos1+10, $len - ($pos1+10));
+			$par["v"] = substr($a_location, $pos1+10, $len - ($pos1+10));
 		}
 
 		return $par;
 	}
+	
+	//PATCH HSLU To allow Youtube and SWITCHtube in Mediacast
+	/**
+	 * Identify SWITCHtube links
+	 */
+	static function isSwitchtube($a_location)
+	{
+		if (strpos($a_location, "tube.switch.ch") > 0)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Extract SWITCHtube Parameter
+	 */
+	static function extractSwitchtubeParameters($a_location)
+	{
+		$par = array();
+		$pos1 = strrpos($a_location, "/");
+		$pos2 = strpos($a_location, "?");
+		if ($pos1 > 0)
+		{
+			$len = ($pos2 > 0)
+			? $pos2-$pos1
+			: (strlen($a_location)-$pos1);
+			$par["v"] = substr($a_location, $pos1+1, $len);
+		}
+		
+		return $par;
+	}
+	//END PATCH HSLU To allow Youtube and SWITCHtube in Mediacast
 
 	/**
 	* Identify Google Document links
@@ -263,6 +298,21 @@ class ilExternalMediaAnalyzer
 			$ext_par = ilExternalMediaAnalyzer::extractGoogleVideoParameters($a_location);
 			$a_parameter = array();
 		}
+		
+		//PATCH HSLU To allow Youtube and SWITCHtube in Mediacast
+		// Vimeo
+		if (ilExternalMediaAnalyzer::isVimeo($a_location))
+		{
+			$ext_par = ilExternalMediaAnalyzer::extractVimeoParameters($a_location);
+			$a_parameter = array();
+		}
+		// SWITCHtube
+		if (ilExternalMediaAnalyzer::isSwitchtube($a_location))
+		{
+			$ext_par = ilExternalMediaAnalyzer::extractSwitchtubeParameters($a_location);
+			$a_parameter = array();
+		}
+		//END PATCH HSLU To allow Youtube and SWITCHtube in Mediacast
 
 		// GoogleDocs
 		if (ilExternalMediaAnalyzer::isGoogleDocument($a_location))

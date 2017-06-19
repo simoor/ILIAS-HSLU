@@ -2786,7 +2786,8 @@
 
 
 		<!-- mp4 -->
-
+		
+		<!--PATCH HSLU To allow Vimeo and SWITCHtube in Mediacast-->
 		<!-- YouTube -->
 		<xsl:when test = "substring-after($data,'youtube.com') != '' or substring-after($data,'youtu.be') != ''">
 			<xsl:if test="$width = '' and $height = ''">
@@ -2806,34 +2807,41 @@
 				<xsl:attribute name="src">
 					<xsl:value-of select="$httpprefix"/>//www.youtube.com/embed/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />
 				</xsl:attribute>
+				<xsl:attribute name="allowfullscreen">true</xsl:attribute>
+				<xsl:attribute name="webkitallowfullscreen">true</xsl:attribute>
+				<xsl:attribute name="mozallowfullscreen">true</xsl:attribute>
 				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
 			</iframe>
 		</xsl:when>
-		<xsl:when test = "substring-after($data,'xxxyoutube.com') != ''">
-			<object>
-				<xsl:if test="$width != ''">
-					<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-				</xsl:if>
-				<xsl:if test="$height != ''">
-					<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-				</xsl:if>
-				<param name="movie">
-					<xsl:attribute name="value"><xsl:value-of select="$httpprefix"/>//www.youtube.com/v/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />&amp;hl=en&amp;fs=1&amp;rel=0</xsl:attribute>
-				</param>
-				<param name="allowFullScreen" value="true"></param>
-				<embed type="application/x-shockwave-flash"
-					allowfullscreen="true">
-					<xsl:if test="$width != ''">
-						<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
-					</xsl:if>
-					<xsl:if test="$height != ''">
-						<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
-					</xsl:if>
-					<xsl:attribute name="src"><xsl:value-of select="$httpprefix"/>//www.youtube.com/v/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />&amp;hl=en&amp;fs=1&amp;rel=0</xsl:attribute>
-					<xsl:comment>Comment to have separate embed ending tag</xsl:comment>
-				</embed>
-			</object>
+		<!-- SWITCHtube -->
+		<xsl:when test = "not(substring-after($data,'tube.switch.ch') = '')">
+			<iframe>
+				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:attribute name="src">
+					<xsl:value-of select="$httpprefix"/>//tube.switch.ch/embed/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />
+				</xsl:attribute>
+				<xsl:attribute name="allowfullscreen">true</xsl:attribute>
+				<xsl:attribute name="webkitallowfullscreen">true</xsl:attribute>
+				<xsl:attribute name="mozallowfullscreen">true</xsl:attribute>
+				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
+			</iframe>
 		</xsl:when>
+		<!-- Vimeo -->
+		<xsl:when test = "not(substring-after($data,'vimeo.com') = '')">
+			<iframe>
+				<xsl:attribute name="width"><xsl:value-of select="$width"/></xsl:attribute>
+				<xsl:attribute name="height"><xsl:value-of select="$height"/></xsl:attribute>
+				<xsl:attribute name="src">
+					<xsl:value-of select="$httpprefix"/>//player.vimeo.com/video/<xsl:value-of select="//MediaObject[@Id=$cmobid]/MediaItem[@Purpose=$curPurpose]/Parameter[@Name='v']/@Value" />
+				</xsl:attribute>
+				<xsl:attribute name="allowfullscreen">true</xsl:attribute>
+				<xsl:attribute name="webkitallowfullscreen">true</xsl:attribute>
+				<xsl:attribute name="mozallowfullscreen">true</xsl:attribute>
+				<xsl:comment>Comment to have separate iframe ending tag</xsl:comment>
+			</iframe>
+		</xsl:when>
+		<!--END PATCH HSLU To allow Vimeo and SWITCHtube in Mediacast-->
 		
 		<!-- Flickr -->
 		<xsl:when test = "substring-after($data,'flickr.com') != ''">

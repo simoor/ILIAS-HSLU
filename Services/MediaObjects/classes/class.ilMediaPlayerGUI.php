@@ -296,75 +296,40 @@ class ilMediaPlayerGUI
 		require_once 'Services/MediaObjects/classes/class.ilObjMediaObject.php';
 		include_once("./Services/MediaObjects/classes/class.ilExternalMediaAnalyzer.php");
 
-		// youtube
-		if (ilExternalMediaAnalyzer::isYouTube($this->getFile()))
+		//PATCH HSLU To allow SWITCHtube in Mediacast and to SWITCH to HTTPS and to use modern iframes
+		if (ilExternalMediaAnalyzer::isYouTube($this->getFile()) || ilExternalMediaAnalyzer::isVimeo($this->getFile()) || ilExternalMediaAnalyzer::isSwitchtube($this->getFile()))
 		{
-			$p = ilExternalMediaAnalyzer::extractYouTubeParameters($this->getFile());
-			/*
-			$html = '<object width="320" height="240">'.
-				'<param name="movie" value="http://www.youtube.com/v/'.$p["v"].'?fs=1">'.
-				'</param><param name="allowFullScreen" value="true"></param>'.
-				'<param name="allowscriptaccess" value="always">'.
-				'</param><embed src="http://www.youtube.com/v/'.$p["v"].'?fs=1" '.
-				'type="application/x-shockwave-flash" allowscriptaccess="always" '.
-				'allowfullscreen="true" width="320" height="240"></embed></object>';
-			return $html;*/
-			$mp_tpl = new ilTemplate("tpl.flv_player.html", true, true, "Services/MediaObjects");
-			if ($a_preview)
-			{
-				if ($this->getDownloadLink() != "")
-				{
-					$mp_tpl->setCurrentBlock("ytdownload");
-					$mp_tpl->setVariable("TXT_DOWNLOAD", $lng->txt("download"));
-					$mp_tpl->setVariable("HREF_DOWNLOAD", $this->getDownloadLink());
-					$mp_tpl->parseCurrentBlock();
-				}
-
-				$mp_tpl->setCurrentBlock("ytpreview");
-				if ($this->getVideoPreviewPic() != "")
-				{
-					$mp_tpl->setVariable("IMG_SRC", $this->getVideoPreviewPic());
-				}
-				else
-				{
-					$mp_tpl->setVariable("IMG_SRC", ilUtil::getImagePath("mcst_preview.svg"));
-				}
-				$height = $this->getDisplayHeight();
+			if ($a_preview) {
+				$width = "320";
+				$height = "240";
+			} else {
 				$width = $this->getDisplayWidth();
-				$mp_tpl->setVariable("DISPLAY_HEIGHT", $height);
-				$mp_tpl->setVariable("DISPLAY_WIDTH", $width);
-				$mp_tpl->setVariable("IMG_ALT", $this->video_preview_pic_alt);
-				$mp_tpl->setVariable("PTITLE", $this->getTitle());
-				$mp_tpl->parseCurrentBlock();
+				$height = $this->getDisplayHeight();
 			}
-			$mp_tpl->setCurrentBlock("youtube");
-			if ($a_preview)
+			
+			if (ilExternalMediaAnalyzer::isYouTube($this->getFile()))
 			{
-				$mp_tpl->setVariable("CLASS", "ilNoDisplay");
-			}
-			$mp_tpl->setVariable("PV", $p["v"]);
-			$mp_tpl->setVariable("PLAYER_NR", $this->id."_".$this->current_nr);
-			$mp_tpl->setVariable("TITLE", $this->getTitle());
-			$mp_tpl->setVariable("DESCRIPTION", $this->getDescription());
-			include_once("./Services/UIComponent/Glyph/classes/class.ilGlyphGUI.php");
-			if ($a_preview)
+				$p = ilExternalMediaAnalyzer::extractYouTubeParameters($this->getFile());
+				
+				$html = "<iframe width='$width' height='$height' src='https://www.youtube.com/embed/".$p["v"].
+				"' frameborder='0' allowfullscreen></iframe>";
+			} else if (ilExternalMediaAnalyzer::isVimeo($this->getFile()))
 			{
-				$mp_tpl->setVariable("CLOSE", ilGlyphGUI::get(ilGlyphGUI::CLOSE));
+				$p = ilExternalMediaAnalyzer::extractVimeoParameters($this->getFile());
+				
+				$html = "<iframe src='https://player.vimeo.com/video/".$p['v']."' width='$width' height='$height' ".
+						"frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
+			} else if (ilExternalMediaAnalyzer::isSwitchtube($this->getFile()))
+			{
+				$p = ilExternalMediaAnalyzer::extractSwitchtubeParameters($this->getFile());
+				
+				$html = "<iframe src='https://tube.switch.ch/embed/".$p['v'].
+				"' width='$width' height='$height' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
 			}
-			$mp_tpl->parseCurrentBlock();
-			return $mp_tpl->get();
-		}
-
-		// vimeo
-		if (ilExternalMediaAnalyzer::isVimeo($this->getFile()))
-		{
-			$p = ilExternalMediaAnalyzer::extractVimeoParameters($this->getFile());
-
-			$html = '<iframe src="http://player.vimeo.com/video/'.$p["id"].'" width="320" height="240" '.
-				'frameborder="0"></iframe>';
-
+			
 			return $html;
 		}
+		//END PATCH HSLU To allow SWITCHtube in Mediacast and to SWITCH to HTTPS and to use modern iframes
 
 		$mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
 		include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
