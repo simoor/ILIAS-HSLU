@@ -1485,6 +1485,10 @@ class ilObjectListGUI
 		if ($this->type == "sahs" && $this->offline_mode) {
 			return $this->type . "_offline";	
 		}
+		//BEGIN PATCH HSLU Postbox: Change icon for didactic templates
+		require_once './Services/DidacticTemplate/classes/class.ilDidacticTemplateObjSettings.php';
+		return ilDidacticTemplateObjSettings::checkAndGetIconForDTPL($this->ref_id, $this->type);
+		//END PATCH HSLU Postbox: Change icon for didactic templates
 		return $this->type;
 	}
 	// END WebDAV: Visualize object state in its icon.
