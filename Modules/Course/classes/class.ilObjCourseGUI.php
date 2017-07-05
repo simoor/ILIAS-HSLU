@@ -1734,6 +1734,11 @@ class ilObjCourseGUI extends ilContainerGUI
 		ilChangeEvent::_recordWriteEvent($a_new_object->getId(), $ilUser->getId(), 'create');		
 		// END ChangeEvent: Record write event.
 
+		// BEGIN PATCH HSLU: Set default sorting order
+		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
+		ilContainerGUI::setHSLUSort($a_new_object->getId());
+		// END PATCH HSLU: Set default sorting order
+		
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("crs_added"),true);
 		

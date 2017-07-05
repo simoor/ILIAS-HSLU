@@ -287,9 +287,13 @@ class ilObjFolderGUI extends ilContainerGUI
 	protected function afterSave(ilObject $a_new_object)
 	{	
 		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		$sort = new ilContainerSortingSettings($a_new_object->getId());
-		$sort->setSortMode(ilContainer::SORT_INHERIT);
-		$sort->update();
+		
+		// BEGIN PATCH HSLU: Set default sorting order
+		//$sort = new ilContainerSortingSettings($a_new_object->getId());
+		//$sort->setSortMode(ilContainer::SORT_INHERIT);
+		//$sort->update();
+		ilContainerGUI::setHSLUSort($a_new_object->getId());
+		// END PATCH HSLU: Set default sorting order
 		
 		// always send a message
 		ilUtil::sendSuccess($this->lng->txt("fold_added"),true);
