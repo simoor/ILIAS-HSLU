@@ -525,9 +525,13 @@ class ilObjCategoryGUI extends ilContainerGUI
 
 		// default: sort by title
 		include_once('Services/Container/classes/class.ilContainerSortingSettings.php');
-		$settings = new ilContainerSortingSettings($a_new_object->getId());
-		$settings->setSortMode(ilContainer::SORT_TITLE);
-		$settings->save();
+		
+		// BEGIN PATCH HSLU: Set default sorting order
+		//$settings = new ilContainerSortingSettings($a_new_object->getId());
+		//$settings->setSortMode(ilContainer::SORT_TITLE);
+		//$settings->save();
+		ilContainerGUI::setHSLUSort($a_new_object->getId());
+		// END PATCH HSLU: Set default sorting order
 		
 		// inherit parents content style, if not individual
 		$parent_ref_id = $tree->getParentId($a_new_object->getRefId());

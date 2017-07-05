@@ -3889,5 +3889,23 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 		$this->ctrl->setReturn($this, "");
 	}
 
+	// BEGIN PATCH HSLU: Set default sorting order
+	/**
+	 * Sets the default sorting order for containers
+	 * 
+	 * @param integer $obj_id
+	 */
+	protected static function setHSLUSort($obj_id)
+	{
+	    $sort_settings = new ilContainerSortingSettings($obj_id);
+	    $sort_settings->setSortMode(ilContainer::SORT_MANUAL);
+	    
+	    $sort_settings->setSortNewItemsPosition(ilContainer::SORT_NEW_ITEMS_POSITION_BOTTOM);
+	    $sort_settings->setSortNewItemsOrder(ilContainer::SORT_NEW_ITEMS_ORDER_CREATION);
+	    $sort_settings->setSortDirection(ilContainer::SORT_DIRECTION_ASC);
+	    
+	    $sort_settings->update();
+	}
+	// END PATCH HSLU: Set default sorting order
 }
 ?>

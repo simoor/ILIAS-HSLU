@@ -435,9 +435,13 @@ class ilObjGroupGUI extends ilContainerGUI
 		
 		// Save sorting
 		include_once './Services/Container/classes/class.ilContainerSortingSettings.php';
-		$sort = new ilContainerSortingSettings($new_object->getId());
-		$sort->setSortMode($sort_mode);
-		$sort->update();
+		
+		// BEGIN PATCH HSLU: Set default sorting order
+		//$sort = new ilContainerSortingSettings($new_object->getId());
+		//$sort->setSortMode($sort_mode);
+		//$sort->update();
+		ilContainerGUI::setHSLUSort($new_object->getId());
+		// END PATCH HSLU: Set default sorting order
 		
 		
 		// Add user as admin and enable notification
