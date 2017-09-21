@@ -144,7 +144,9 @@ class ilColumnGUI
 			"ilPDCalendarBlockGUI" => IL_COL_RIGHT,
 			"ilPDPortfolioBlockGUI" => IL_COL_RIGHT,
 			"ilPDSysMessageBlockGUI" => IL_COL_LEFT,
-			"ilPDNewsBlockGUI" => IL_COL_LEFT,
+			// BEGIN PATCH HSLU: Move News Block to the right
+			"ilPDNewsBlockGUI" => IL_COL_RIGHT,
+		    // END PATCH HSLU
 			"ilPDStudyProgrammeSimpleListGUI" => IL_COL_CENTER,
 			"ilPDStudyProgrammeExpandableListGUI" => IL_COL_CENTER,
 			"ilPDSelectedItemsBlockGUI" => IL_COL_CENTER,
@@ -938,6 +940,18 @@ class ilColumnGUI
 					{
 //						$nr = -15;
 					}
+					
+					// BEGIN PATCH HSLU: Move News Block to the right
+					if($type == "pdnews")
+					{
+					    $nr = -8;
+					}
+					if($type == "pdcal")
+					{
+					    $nr = -15;
+					}
+					// END PATCH HSLU
+					
 					if ($type == "pdfeedb")		// always show feedback request second
 					{
 						$nr = -10;
