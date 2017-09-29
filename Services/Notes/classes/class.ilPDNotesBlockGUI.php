@@ -32,7 +32,12 @@ class ilPDNotesBlockGUI extends ilBlockGUI
 		parent::__construct();
 		
 		$this->setLimit(5);
-		$this->setTitle($lng->txt("notes"));
+		// BEGIN PATCH HSLU: Add links to the titles of the enabled desktop-boxes
+		global $ilCtrl;
+		$notes_link = $ilCtrl->getLinkTargetByClass('ilPersonalDesktopGUI', 'jumpToNotes');
+		$this->setTitle('<a href="'.$notes_link.'">'.$lng->txt("notes").'</a>');
+		//$this->setTitle($lng->txt("notes"));
+		// END PATCH HSLU: Add links to the titles of the enabled desktop-boxes
 		$this->setAvailableDetailLevels(3);
 	}
 	
