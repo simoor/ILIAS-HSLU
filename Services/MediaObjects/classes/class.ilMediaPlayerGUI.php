@@ -317,7 +317,7 @@ class ilMediaPlayerGUI
 			{
 				$p = ilExternalMediaAnalyzer::extractVimeoParameters($this->getFile());
 				
-				$html = "<iframe src='https://player.vimeo.com/video/".$p['v']."' width='$width' height='$height' ".
+				$html = "<iframe src='https://player.vimeo.com/video/".$p['id']."' width='$width' height='$height' ".
 						"frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
 			} else if (ilExternalMediaAnalyzer::isSwitchtube($this->getFile()))
 			{
