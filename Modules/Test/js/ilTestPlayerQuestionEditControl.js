@@ -43,7 +43,8 @@ il.TestPlayerQuestionEditControl = new function() {
         withFormChangeDetection: true,          // form changes should be detected
         withBackgroundChangeDetection: false,   // background changes should be polled from ILIAS
         backgroundDetectorUrl: '',              // url called by the background detector
-        forcedInstantFeedback: false            // forced feedback will change the submit command
+        forcedInstantFeedback: false,            // forced feedback will change the submit command
+        savingErrorMessage: 'Autosave failed!'	// we set a standard message, just in case
     };
 
     /**
@@ -601,9 +602,10 @@ il.TestPlayerQuestionEditControl = new function() {
      * @param  responseText
      */
     function autoSaveSuccess(responseText) {
-
         if (typeof responseText !== 'undefined' && responseText != '-IGNORE-') {
             $('#autosavemessage').text(responseText)
+            	.addClass('ilHighlighted')
+            	.removeClass('alert alert-danger')
                 .fadeIn(500, function(){
                     $('#autosavemessage').fadeOut(5000)
             });
@@ -615,11 +617,12 @@ il.TestPlayerQuestionEditControl = new function() {
      * @param jqXHR
      */
     function autoSaveFailure(jqXHR) {
-
-        $('#autosavemessage').text(jqXHR.responseText)
-            .fadeIn(500, function(){
-                $('#autosavemessage').fadeOut(5000)
-        });
+    	let responseText = (jqXHR.responseText === undefined) ? config.savingErrorMessage : jqXHR.responseText;
+    	
+        $('#autosavemessage').text(responseText)
+        	.addClass('alert alert-danger')
+        	.removeClass('ilHighlighted')
+            .fadeIn(500);
         autoSavedData = '';
     }
 };
