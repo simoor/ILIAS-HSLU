@@ -1213,8 +1213,22 @@ class ilTestServiceGUI
 		$questionId = (int)$_GET['evaluation'];
 		
 		$testSequence = $this->testSequenceFactory->getSequenceByActiveIdAndPass($activeId, $pass);
-		$testSequence->loadFromDb();
-		$testSequence->loadQuestions();
+		
+		if( $this->object->isDynamicTest() )
+		{
+			global $DIC;
+			require_once 'Modules/Test/classes/class.ilObjTestDynamicQuestionSetConfig.php';
+			$dynamicQuestionSetConfig = new ilObjTestDynamicQuestionSetConfig($this->tree, $this->db, $DIC['ilPluginAdmin'], $this->object);
+			$dynamicQuestionSetConfig->loadFromDb();
+			
+			$testSequence->loadFromDb($dynamicQuestionSetConfig);
+			$testSequence->loadQuestions($dynamicQuestionSetConfig, new ilTestDynamicQuestionSetFilterSelection());
+		}
+		else
+		{
+			$testSequence->loadFromDb();
+			$testSequence->loadQuestions();
+		}
 		
 		if( !$testSequence->questionExists($questionId) )
 		{

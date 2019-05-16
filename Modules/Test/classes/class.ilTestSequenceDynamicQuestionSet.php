@@ -150,6 +150,11 @@ class ilTestSequenceDynamicQuestionSet implements ilTestSequenceSummaryProvider
 	{
 		return $this->currentQuestionId;
 	}
+	
+	public function questionExists($questionId)
+	{
+		return $this->questionSet->questionExists($questionId);
+	}
 
 	/**
 	 * @param int $currentQuestionId
