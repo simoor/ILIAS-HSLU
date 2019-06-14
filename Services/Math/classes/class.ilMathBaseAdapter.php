@@ -71,7 +71,11 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
 		if(null === $number)
 		{
 			return $number;
+		} else if(is_string($number) && strtolower($number) == 'nan')
+		{
+			return NAN;
 		}
+
 
 		$number      = str_replace(' ' , '', $number);
 		$number      = $this->exp2dec($number);
@@ -89,7 +93,13 @@ abstract class ilMathBaseAdapter implements ilMathAdapter
 			}
 
 			return number_format($number, $number_of_decimals, '.', '') . $append;
+		} 
+		
+		if(is_string($number) && strtolower($number) == 'nan')
+		{
+			return NAN;
 		}
+
 
 		return $number;
 	}
