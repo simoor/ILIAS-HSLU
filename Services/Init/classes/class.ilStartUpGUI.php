@@ -878,14 +878,23 @@ class ilStartUpGUI
                 $tpl->setVariable("IL_TARGET", $_GET["target"]);
                 $tpl->setVariable("TXT_SHIB_FEDERATION_NAME", $ilSetting->get("shib_federation_name"));
                 $tpl->setVariable("TXT_SHIB_LOGIN_BUTTON", $ilSetting->get("shib_login_button"));
-                $tpl->setVariable(
+                // BEGIN PATCH HSLU Fix Link in Shibboleth form
+                /*$tpl->setVariable(
                     "TXT_SHIB_LOGIN_INSTRUCTIONS",
                     sprintf(
                         $lng->txt("shib_general_login_instructions"),
                         $federation_name,
                         $admin_mail
                     )
+                );*/
+                $tpl->setVariable(
+                    "TXT_SHIB_LOGIN_INSTRUCTIONS",
+                    sprintf(
+                        $lng->txt("shib_general_login_instructions"),
+                        $federation_name
+                    ) . ' <a href="mailto:servicedesk@hslu.ch">HSLU Service Desk</a>.'
                 );
+                // END PATCH HSLU Fix Link in Shibboleth form
                 $tpl->setVariable("TXT_SHIB_CUSTOM_LOGIN_INSTRUCTIONS", $ilSetting->get("shib_login_instructions"));
                 $tpl->parseCurrentBlock();
             } elseif ($ilSetting->get("shib_hos_type") == 'embedded_wayf') {
