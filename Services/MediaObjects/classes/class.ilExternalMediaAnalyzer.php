@@ -365,6 +365,12 @@ class ilExternalMediaAnalyzer
             $ext_par = ilExternalMediaAnalyzer::extractYouTubeParameters($a_location);
             $a_parameter = array();
         }
+        
+        // Vimeo
+        if (ilExternalMediaAnalyzer::isVimeo($a_location)) {
+            $ext_par = ilExternalMediaAnalyzer::extractVimeoParameters($a_location);
+            $a_parameter = array();
+        }
 
         // Vimeo
         if (ilExternalMediaAnalyzer::isVimeo($a_location)) {
