@@ -876,7 +876,8 @@ class ilNewsItem
         // get starting date
         $starting_date = "";
         if ($obj_type == "grp" || $obj_type == "crs" || $obj_type == "cat") {
-            if (!ilContainer::_lookupContainerSetting(
+            // HSLU Temporary Patch to show news of courses even if the settings are not activated
+            /*if (!ilContainer::_lookupContainerSetting(
                 $obj_id,
                 'cont_use_news',
                 true
@@ -891,8 +892,8 @@ class ilNewsItem
                 )
             )) {
                 return [];
-            }
-
+            }*/
+            // HSLU Temporary Patch to show news of courses even if the settings are not activated
             include_once("./Services/Block/classes/class.ilBlockSetting.php");
             $hide_news_per_date = ilBlockSetting::_lookup(
                 "news",
