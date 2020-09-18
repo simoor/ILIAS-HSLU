@@ -135,7 +135,7 @@ class ilCopyFilesToTempDirectoryJob extends AbstractJob
                 // if the "file" to be copied is an empty folder the directory has to be created so it will be contained in the download zip
                 $is_empty_folder = preg_match_all("/\/$/", $copy_task[ilCopyDefinition::COPY_TARGET_DIR]);
                 if ($is_empty_folder) {
-                    mkdir($tmpdir . '/' . $copy_task[ilCopyDefinition::COPY_TARGET_DIR]);
+                    mkdir($tmpdir . '/' . $copy_task[ilCopyDefinition::COPY_TARGET_DIR], 0777, true);
                     $this->logger->notice('Empty folder has been created: ' . $tmpdir . '/' . $copy_task[ilCopyDefinition::COPY_SOURCE_DIR]);
                 } else {
                     $this->logger->notice('Cannot find file: ' . $copy_task[ilCopyDefinition::COPY_SOURCE_DIR]);
