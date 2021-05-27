@@ -5892,6 +5892,8 @@ common#:#webdav_doc_delete#:#WebDAV-Anleitung löschen
 common#:#webdav_docs_mount_instructions#:#Datei mit WevDAV-Anleitung
 common#:#webdav_duplicate_detected_title#:#Folgende Objekte konnten nicht angezeigt werden, da bereits ein Objekt mit dem selben Titel angezeigt wird:
 common#:#webdav_enable_versioning#:#Datei Versionierung
+common#:#webdav_exc_by_assignment#:#Je Übungseinheit
+common#:#webdav_exc_by_user#:#Je Teilnehmer
 common#:#webdav_forbidden_chars_title#:#Folgende Objekte konnten nicht angezeigt werden, da sie verbotene Zeichen enthalten (\<>/:*?"|#):
 common#:#webdav_form_document#:#WebDAV-Anleitung
 common#:#webdav_form_document_info#:#Ein txt- oder html-Dokument mit einer Anleitung zum Anbinden von WebDAV an die Systeme Ihrer Wahl hochladen.

@@ -18,15 +18,19 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
 
     /** @var ilWebDAVObjDAVHelper */
     protected $dav_helper;
+    
+    protected array $data;
 
     public function __construct(
         ilObjContainerDAV $a_dav_container,
         ilWebDAVRepositoryHelper $a_repo_helper,
-        ilWebDAVObjDAVHelper $a_dav_helper
+        ilWebDAVObjDAVHelper $a_dav_helper,
+        array $data = []
     ) {
         $this->dav_container = $a_dav_container;
         $this->repo_helper = $a_repo_helper;
         $this->dav_helper = $a_dav_helper;
+        $this->data = $data;
     }
 
     /**
@@ -48,7 +52,15 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      */
     public function get()
     {
-        $problem_infos = $this->analyseObjectsOfDAVContainer();
+        $type = $this->repo_helper->getObjectTypeFromRefId($this->dav_container->getRefId());
+        
+        if ($type === 'exc') {
+            $problem_infos = $this->analyseObjectsOfExerciseContainer();
+        } else {
+            $problem_infos = $this->analyseObjectsOfDAVContainer();
+        }
+            
+        
         return $this->createMessageStringFromProblemInfoArray($problem_infos);
     }
 
@@ -107,7 +119,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      */
     public function setName($a_name)
     {
-        throw new Exception\Forbidden("The error info file cannot be renamed");
+        throw new Forbidden("The error info file cannot be renamed");
     }
 
     /**
@@ -126,7 +138,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
             self::PROBLEM_FORBIDDEN_CHARACTERS => array(),
             self::PROBLEM_INFO_NAME_DUPLICATE => false // if a file is already named #!_WEBDAV_INFORMATION.txt (should not be the case)
         );
-
+        
         // Loop to check every child of the container
         foreach ($this->repo_helper->getChildrenOfRefId($this->dav_container->getRefId()) as $ref_id) {
             $type = $this->repo_helper->getObjectTypeFromRefId($ref_id);
@@ -151,6 +163,77 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
             }
         }
 
+        return $problem_infos;
+    }
+    
+    protected function analyseObjectsOfExerciseContainer() : array
+    {
+        // list of titles that were already checked (used for duplicate checking)
+        $already_seen_titles = array();
+        
+        // Array with 3 different problem topics
+        $problem_infos = array(
+            self::PROBLEM_DUPLICATE_OBJECTNAME => array(),
+            self::PROBLEM_FORBIDDEN_CHARACTERS => array(),
+            self::PROBLEM_INFO_NAME_DUPLICATE => false // if a file is already named #!_WEBDAV_INFORMATION.txt (should not be the case)
+        );
+        
+        if (array_key_exists('ass_id', $this->data) && array_key_exists('usr_id', $this->data)) {
+            $team = null;
+            if (isset($this->data['team_id'])) {
+                $team = new ilExAssignmentTeam($this->team_id);
+            }
+            
+            $sub = new ilExSubmission($this->ass, $this->usr_id, $team);
+            $files = $sub->getFiles();
+            foreach ($files as $file) {
+                $title = $file['filetitle'];
+                if (!$this->dav_helper->hasInvalidPrefixInTitle($title)) {
+                    // Check if object is a file with the same name as this info file
+                    if ($title == self::PROBLEM_INFO_FILE_NAME) {
+                        $problem_infos[self::PROBLEM_INFO_NAME_DUPLICATE] = true;
+                    }
+                    // Check if title contains forbidden characters
+                    elseif ($this->dav_helper->hasTitleForbiddenChars($title)) {
+                        $problem_infos[self::PROBLEM_FORBIDDEN_CHARACTERS][] = $title;
+                    }
+                    // Check for duplicates
+                    elseif (in_array($title, $already_seen_titles)) {
+                        $problem_infos[self::PROBLEM_DUPLICATE_OBJECTNAME][] = $title;
+                    } else {
+                        $already_seen_titles[] = $title;
+                    }
+                }
+            }
+        } elseif ($this->data === [] || array_key_exists('usr_id', $this->data)) {
+            $ref_id = $this->dav_container->getRefId();
+            $exc_id = $this->repo_helper->getObjectIdFromRefId($ref_id);
+            
+            foreach (ilExAssignment::getInstancesByExercise($exc_id) as $ass) {
+                if ($ass->getAssignmentType()->getSubmissionType() != ilExSubmission::TYPE_FILE) {
+                    continue;
+                }
+                
+                $title = $ass->getTitle();
+                if (!$this->dav_helper->hasInvalidPrefixInTitle($title)) {
+                    // Check if object is a file with the same name as this info file
+                    if ($title == self::PROBLEM_INFO_FILE_NAME) {
+                        $problem_infos[self::PROBLEM_INFO_NAME_DUPLICATE] = true;
+                    }
+                    // Check if title contains forbidden characters
+                    elseif ($this->dav_helper->hasTitleForbiddenChars($title)) {
+                        $problem_infos[self::PROBLEM_FORBIDDEN_CHARACTERS][] = $title;
+                    }
+                    // Check for duplicates
+                    elseif (in_array($title, $already_seen_titles)) {
+                        $problem_infos[self::PROBLEM_DUPLICATE_OBJECTNAME][] = $title;
+                    } else {
+                        $already_seen_titles[] = $title;
+                    }
+                }
+            }
+        }
+        
         return $problem_infos;
     }
 
@@ -207,7 +290,7 @@ class ilProblemInfoFileDAV implements Sabre\DAV\IFile
      */
     public function delete()
     {
-        throw new \Sabre\DAV\Exception\Forbidden("It is not possible to delete this file since it is just virtual.");
+        throw new Forbidden("It is not possible to delete this file since it is just virtual.");
     }
 
     /**
