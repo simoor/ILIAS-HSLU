@@ -46,15 +46,6 @@ class ilTestResultsToolbarGUI extends ilToolbarGUI
 
         $this->addButton($this->lng->txt('print'), 'javascript:window.print();');
 
-        if (strlen($this->getPdfExportLinkTarget())) {
-            require_once 'Services/UIComponent/Button/classes/class.ilLinkButton.php';
-            $link = ilLinkButton::getInstance(); // always returns a new instance
-            $link->setUrl($this->getPdfExportLinkTarget());
-            $link->setCaption($this->getPdfExportLabel(), false);
-            $link->setOmitPreventDoubleSubmission(true);
-            $this->addButtonInstance($link);
-        }
-
         if (strlen($this->getCertificateLinkTarget())) {
             $this->addButton($this->lng->txt('certificate'), $this->getCertificateLinkTarget());
         }
