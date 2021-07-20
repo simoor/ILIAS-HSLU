@@ -2336,13 +2336,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         $template = new ilTemplate("tpl.il_as_tst_print_test_confirm.html", true, true, "Modules/Test");
 
         if (!$isPdfDeliveryRequest) { // #15243
-            $this->ctrl->setParameter($this, "pdf", "1");
-            $template->setCurrentBlock("pdf_export");
-            $template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "print"));
-            $this->ctrl->setParameter($this, "pdf", "");
-            $template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-            $template->parseCurrentBlock();
-
             $template->setCurrentBlock("navigation_buttons");
             $template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
             $template->parseCurrentBlock();
@@ -2486,13 +2479,6 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
         if ($isPdfDeliveryRequest) {
             ilTestPDFGenerator::generatePDF($template->get(), ilTestPDFGenerator::PDF_OUTPUT_DOWNLOAD, $this->object->getTitleFilenameCompliant(), PDF_PRINT_VIEW_QUESTIONS);
         } else {
-            $this->ctrl->setParameter($this, "pdf", "1");
-            $template->setCurrentBlock("pdf_export");
-            $template->setVariable("PDF_URL", $this->ctrl->getLinkTarget($this, "review"));
-            $this->ctrl->setParameter($this, "pdf", "");
-            $template->setVariable("PDF_TEXT", $this->lng->txt("pdf_export"));
-            $template->parseCurrentBlock();
-
             $template->setCurrentBlock("navigation_buttons");
             $template->setVariable("BUTTON_PRINT", $this->lng->txt("print"));
             $template->parseCurrentBlock();
