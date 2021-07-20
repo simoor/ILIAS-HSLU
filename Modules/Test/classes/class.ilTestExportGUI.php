@@ -28,7 +28,6 @@ class ilTestExportGUI extends ilExportGUI
         $this->addFormat('xml', $a_parent_gui->lng->txt('ass_create_export_file'));
         $this->addFormat('xmlres', $a_parent_gui->lng->txt('ass_create_export_file_with_results'), $this, 'createTestExportWithResults');
         $this->addFormat('csv', $a_parent_gui->lng->txt('ass_create_export_test_results'), $this, 'createTestResultsExport');
-        $this->addFormat('arc', $a_parent_gui->lng->txt('ass_create_export_test_archive'), $this, 'createTestArchiveExport');
         $pl_names = $ilPluginAdmin->getActivePluginsForSlot(IL_COMP_MODULE, 'Test', 'texp');
         foreach ($pl_names as $pl) {
             /**
@@ -193,7 +192,9 @@ class ilTestExportGUI extends ilExportGUI
         if (count($export_files) > 0) {
             foreach ($export_files as $exp_file) {
                 $file_arr = explode("__", $exp_file);
-                if($file_arr[0] == $exp_file) continue;
+                if ($file_arr[0] == $exp_file) {
+                    continue;
+                }
 
                 array_push($data, array(
                     'file' => $exp_file,
