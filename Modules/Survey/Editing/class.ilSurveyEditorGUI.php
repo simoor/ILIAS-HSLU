@@ -1201,20 +1201,6 @@ class ilSurveyEditorGUI
         $button->setOnClick("window.print(); return false;");
         $button->setOmitPreventDoubleSubmission(true);
         $ilToolbar->addButtonInstance($button);
-            
-        if (ilRPCServerSettings::getInstance()->isEnabled()) {
-            $this->ctrl->setParameter($this, "export_label", $current_title);
-            $this->ctrl->setParameter($this, "pdf", "1");
-            $pdf_url = $this->ctrl->getLinkTarget($this, "printView");
-            $this->ctrl->setParameter($this, "pdf", "");
-            $this->ctrl->setParameter($this, "export_label", "");
-            
-            $button = ilLinkButton::getInstance();
-            $button->setCaption("pdf_export");
-            $button->setUrl($pdf_url);
-            $button->setOmitPreventDoubleSubmission(true);
-            $ilToolbar->addButtonInstance($button);
-        }
         
         // defer rendering of tex to fo processing
         if (array_key_exists("pdf", $_GET) && ($_GET["pdf"] == 1)) {
