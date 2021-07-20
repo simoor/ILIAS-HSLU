@@ -835,20 +835,6 @@ class ilSurveyEvaluationGUI
                 $button->setOnClick("if(il.Accordion) { il.Accordion.preparePrint(); } window.print(); return false;");
                 $button->setOmitPreventDoubleSubmission(true);
                 $ilToolbar->addButtonInstance($button);
-
-                // patch BGHW jluetzen-ilias
-                $this->ctrl->setParameter($this, "cp", $_POST["cp"]);
-                $this->ctrl->setParameter($this, "vw", $_POST["vw"]);
-                $url = $this->ctrl->getLinkTarget($this, $details
-                    ? "evaluationdetailspdf"
-                    : "evaluationpdf");
-                $this->ctrl->setParameter($this, "cp", "");
-                $this->ctrl->setParameter($this, "vw", "");
-                $button = ilLinkButton::getInstance();
-                $button->setCaption("svy_export_pdf");
-                $button->setUrl($url);
-                $button->setOmitPreventDoubleSubmission(true);
-                $ilToolbar->addButtonInstance($button);
             }
 
             $finished_ids = null;
