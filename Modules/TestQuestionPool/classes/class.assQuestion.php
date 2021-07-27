@@ -298,12 +298,13 @@ abstract class assQuestion
         global $DIC;
         $ilias = $DIC['ilias'];
         $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
+        if(isset($DIC['tpl'])) {
+            $this->tpl = $DIC['tpl'];
+        }
         $ilDB = $DIC['ilDB'];
 
         $this->ilias = $ilias;
         $this->lng = $lng;
-        $this->tpl = $tpl;
         $this->db = $ilDB;
 
         $this->original_id = null;
