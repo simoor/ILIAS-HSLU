@@ -186,6 +186,10 @@ class ilIndividualAssessmentUserGrading
             ->withValue($this->hasFile() ? [$this->getFile()] : null)
         ;
 
+        if ($this->getFile()) {
+            $file = $file->withValue([$this->getFile()]);
+        }
+
         $file_visible = $input
             ->checkbox($lng->txt('iass_file_visible_examinee'))
             ->withValue($this->isFileVisible())
