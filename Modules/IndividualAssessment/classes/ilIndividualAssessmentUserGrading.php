@@ -178,8 +178,11 @@ class ilIndividualAssessmentUserGrading
 
         $file = $input
             ->file($file_handler, $lng->txt('iass_upload_file'), $lng->txt('iass_file_dropzone'))
-            ->withValue([$this->getFile()])
         ;
+        
+        if ($this->getFile()) {
+            $file = $file->withValue([$this->getFile()]);
+        }
 
         $file_visible = $input
             ->checkbox($lng->txt('iass_file_visible_examinee'))
