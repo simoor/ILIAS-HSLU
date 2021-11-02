@@ -6165,56 +6165,50 @@ class ilObjSurvey extends ilObject
         
         include_once "./Services/Link/classes/class.ilLink.php";
         $link = ilLink::_getStaticLink($this->getRefId(), "svy");
-        
-        // somehow needed in cron-calls
-        //$ilCtrl->setTargetScript("ilias.php");
-        //$ilCtrl->initBaseClass("ilobjsurveygui");
-        
-        // yeah, I know...
-        $old_ref_id = $_GET["ref_id"];
-        $old_base_class = $_GET["baseClass"];
-        $_GET["ref_id"] = $this->getRefId();
-        $ilCtrl->setTargetScript("ilias.php");
-        $_GET["baseClass"] = "ilObjSurveyGUI";
+        /*Start PATCH HSLU Remove attachment from Tutor Result Mail
+                // somehow needed in cron-calls
+                //$ilCtrl->setTargetScript("ilias.php");
+                //$ilCtrl->initBaseClass("ilobjsurveygui");
 
-        $ilCtrl->setParameterByClass("ilSurveyEvaluationGUI", "ref_id", $this->getRefId());
+                // yeah, I know...
+                $old_ref_id = $_GET["ref_id"];
+                $old_base_class = $_GET["baseClass"];
+                $_GET["ref_id"] = $this->getRefId();
+                $ilCtrl->setTargetScript("ilias.php");
+                $_GET["baseClass"] = "ilObjSurveyGUI";
 
-        try {
-            $gui = new ilSurveyEvaluationGUI($this);
-            $html = $gui->evaluation(1, true, true);
-        } catch (Exception $exception) {
-            $_GET["ref_id"] = $old_ref_id;
-            $_GET["baseClass"] = $old_base_class;
-            throw $exception;
-        }
-        $_GET["ref_id"] = $old_ref_id;
-        $_GET["baseClass"] = $old_base_class;
+                $ilCtrl->setParameterByClass("ilSurveyEvaluationGUI", "ref_id", $this->getRefId());
 
-        $html = preg_replace("/\?dummy\=[0-9]+/", "", $html);
-        $html = preg_replace("/\?vers\=[0-9A-Za-z\-]+/", "", $html);
-        $html = str_replace('.css$Id$', ".css", $html);
-        $html = preg_replace("/src=\"\\.\\//ims", "src=\"" . ILIAS_HTTP_PATH . "/", $html);
-        $html = preg_replace("/href=\"\\.\\//ims", "href=\"" . ILIAS_HTTP_PATH . "/", $html);
+                try {
+                    $gui = new ilSurveyEvaluationGUI($this);
+                    $html = $gui->evaluation(1, true, true);
+                } catch (Exception $exception) {
+                    $_GET["ref_id"] = $old_ref_id;
+                    $_GET["baseClass"] = $old_base_class;
+                    throw $exception;
+                }
+                $_GET["ref_id"] = $old_ref_id;
+                $_GET["baseClass"] = $old_base_class;
 
-        $log->debug("--pdf start, ref id " . $this->getRefId());
-        $log->debug("html length: " . strlen($html));
-        $log->debug("html (first 1000 chars): " . substr($html, 0, 1000));
-        //echo $html; exit;
-        $pdf_factory = new ilHtmlToPdfTransformerFactory();
-        $pdf = $pdf_factory->deliverPDFFromHTMLString($html, "survey.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, "Survey", "Results");
-        $log->debug("--pdf end");
+                $log->debug("--pdf start, ref id " . $this->getRefId());
+                $log->debug("html length: " . strlen($html));
+                $log->debug("html (first 1000 chars): " . substr($html, 0, 1000));
+                //echo $html; exit;
+                $pdf_factory = new ilHtmlToPdfTransformerFactory();
+                $pdf = $pdf_factory->deliverPDFFromHTMLString($html, "survey.pdf", ilHtmlToPdfTransformerFactory::PDF_OUTPUT_FILE, "Survey", "Results");
+                $log->debug("--pdf end");
 
-        if (!$pdf ||
-            !file_exists($pdf)) {
-            return false;
-        }
-        
-        // prepare mail attachment
-        require_once 'Services/Mail/classes/class.ilFileDataMail.php';
-        $att = "survey_" . $this->getRefId() . ".pdf";
-        $mail_data = new ilFileDataMail(ANONYMOUS_USER_ID);
-        $mail_data->copyAttachmentFile($pdf, $att);
-            
+        		if (!$pdf ||
+            		!file_exists($pdf)) {
+            		return false;
+        		}
+
+        		// prepare mail attachment
+        		require_once 'Services/Mail/classes/class.ilFileDataMail.php';
+        		$att = "survey_" . $this->getRefId() . ".pdf";
+        		$mail_data = new ilFileDataMail(ANONYMOUS_USER_ID);
+        		$mail_data->copyAttachmentFile($pdf, $att);
+    	End PATCH HSLU Remove attachment from Tutor Result Mail */
         foreach ($this->getTutorResultsRecipients() as $user_id) {
             // use language of recipient to compose message
             $ulng = ilLanguageFactory::_getLanguageOfUser($user_id);
@@ -6236,7 +6230,10 @@ class ilObjSurvey extends ilObject
                 "",
                 $subject,
                 $message,
-                array($att)
+//Start PATCH HSLU Remove attachment from Tutor Result Mail
+                //array($att)
+                []
+//End PATCH HSLU Remove attachment from Tutor Result Mail
             );
         }
         
