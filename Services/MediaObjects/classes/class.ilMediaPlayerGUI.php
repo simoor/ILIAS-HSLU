@@ -336,17 +336,39 @@ class ilMediaPlayerGUI
             return $html;
         }
         
-// BEGIN PATCH HSLU To allow SWITCHtube in Mediaelements
+        // BEGIN PATCH HSLU To allow SWITCHtube in Mediaelements
         // switch tube
         if (ilExternalMediaAnalyzer::isSwitchtube($this->getFile())) {
             $p = ilExternalMediaAnalyzer::extractSwitchtubeParameters($this->getFile());
 
-            $html = "<iframe src='https://tube.switch.ch/embed/".$p['v'].
+            $html = "<iframe src='https://tube.switch.ch/embed/" . $p['v'] .
             "' width='320' height='240' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>";
         
             return $html;
         }
-// END PATCH HSLU To allow SWITCHtube in Mediaelements
+        // END PATCH HSLU To allow SWITCHtube in Mediaelements
+
+        // BEGIN PATCH HSLU To allow SRF in Mediaelements
+        // switch tube
+        if (ilExternalMediaAnalyzer::isSrf($this->getFile())) {
+            $p = ilExternalMediaAnalyzer::extractSrfParameters($this->getFile());
+            
+            if (isset($p['t'])) {
+                $p['v'] .= '&startTime=' . $p['t'];
+            }
+            
+            if ($p['m'] == 'audio') {
+                $domain = 'https://tp.srgssr.ch/p/srf/';
+            } else {
+                $domain = 'https://' . $p['origin'] . '.ch/play/';
+            }
+            
+            $html = "<iframe src='" . $domain . "embed?urn=urn:" . $p['origin'] . ":" . $p['m'] . ":" . $p['v'] .
+            "&subdivisions=false' width='320' height='280' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen allow='geolocation *; autoplay; encrypted-media'></iframe>";
+            
+            return $html;
+        }
+        // END PATCH HSLU To allow SRF in Mediaelements
 
         $mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
         include_once("./Services/MediaObjects/classes/class.ilPlayerUtil.php");
