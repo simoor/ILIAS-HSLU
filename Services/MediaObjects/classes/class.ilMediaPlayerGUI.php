@@ -297,6 +297,16 @@ class ilMediaPlayerGUI
             return $mp_tpl->get();
         }
 
+        // vimeo
+        if (ilExternalMediaAnalyzer::isVimeo($this->getFile())) {
+            $p = ilExternalMediaAnalyzer::extractVimeoParameters($this->getFile());
+
+            $html = '<iframe src="https://player.vimeo.com/video/' . $p["id"] . '" width="320" height="240" ' .
+                'frameborder="0"></iframe>';
+
+            return $html;
+        }
+
         $mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
 
         // video tag
