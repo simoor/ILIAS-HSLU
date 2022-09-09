@@ -319,6 +319,28 @@ class ilMediaPlayerGUI
         }
         // END PATCH HSLU To allow SWITCHtube in Mediaelements
 
+        // BEGIN PATCH HSLU To allow SRF in Mediaelements
+        // srf
+        if (ilExternalMediaAnalyzer::isSrf($this->getFile())) {
+            $p = ilExternalMediaAnalyzer::extractSrfParameters($this->getFile());
+
+            if (isset($p['t'])) {
+                $p['v'] .= '&startTime=' . $p['t'];
+            }
+
+            if ($p['m'] == 'audio') {
+                $domain = 'https://tp.srgssr.ch/p/srf/';
+            } else {
+                $domain = 'https://' . $p['origin'] . '.ch/play/';
+            }
+
+            $html = "<iframe src='" . $domain . "embed?urn=urn:" . $p['origin'] . ":" . $p['m'] . ":" . $p['v'] .
+            "&subdivisions=false' width='320' height='280' frameborder='0' webkitallowfullscreen mozallowfullscreen allowfullscreen allow='geolocation *; autoplay; encrypted-media'></iframe>";
+
+            return $html;
+        }
+        // END PATCH HSLU To allow SRF in Mediaelements
+
         $mimeType = $this->mimeType == "" ? ilObjMediaObject::getMimeType(basename($this->getFile())) : $this->mimeType;
 
         // video tag
