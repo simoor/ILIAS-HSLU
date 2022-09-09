@@ -1030,11 +1030,17 @@ class ilStartUpGUI implements ilCtrlBaseClassInterface, ilCtrlSecurityInterface
             $rtpl->setVariable("FORGOT_USERNAME", $this->lng->txt("forgot_username"));
             $rtpl->setVariable(
                 "CMD_FORGOT_PASSWORD",
-                $this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", "")
+//BEGIN PATCH HSLU: Change Password reset to external form
+                #$this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", "")
+                "https://www.hslu.ch/de-ch/zllf/lehr-und-lerninfrastruktur/lernplattform-ilias/support/"
+//END PATCH HSLU: Change Password reset to external form
             );
             $rtpl->setVariable(
                 "CMD_FORGOT_USERNAME",
-                $this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", "showUsernameAssistanceForm")
+//BEGIN PATCH HSLU: Change Password reset to external form
+                # $this->ctrl->getLinkTargetByClass("ilpasswordassistancegui", "showUsernameAssistanceForm")
+                "https://www.hslu.ch/de-ch/zllf/lehr-und-lerninfrastruktur/lernplattform-ilias/support/"
+//END PATCH HSLU: Change Password reset to external form
             );
             $rtpl->setVariable("LANG_ID", $this->lng->getLangKey());
             $rtpl->parseCurrentBlock();
