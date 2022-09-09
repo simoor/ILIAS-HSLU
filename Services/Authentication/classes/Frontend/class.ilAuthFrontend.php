@@ -446,7 +446,12 @@ class ilAuthFrontend
 
         $user_id = ilObjUser::_lookupId($this->getCredentials()->getUsername());
         if (is_int($user_id) && $user_id !== ANONYMOUS_USER_ID) {
-            ilObjUser::_incrementLoginAttempts($user_id);
+            // BEGIN PATCH HSLU: Don't update failed login attempts if user is inactive
+            if (ilObjUser::_lookupActive($user_id)) {
+                ilObjUser::_incrementLoginAttempts($user_id);
+            }
+            // END PATCH HSLU: Don't update failed login attempts if user is inactive
+
             $login_attempts = ilObjUser::_getLoginAttempts($user_id);
 
             $this->logger->notice('Increased login attempts for user: ' . $this->getCredentials()->getUsername());
