@@ -198,13 +198,14 @@ abstract class assQuestion
         global $DIC;
         $this->dic = $DIC;
         $lng = $DIC['lng'];
-        $tpl = $DIC['tpl'];
+        if (isset($DIC['tpl'])) {
+            $this->tpl = $DIC['tpl'];
+        }
         $ilDB = $DIC['ilDB'];
         $ilLog = $DIC->logger();
 
         $this->current_user = $DIC['ilUser'];
         $this->lng = $lng;
-        $this->tpl = $tpl;
         $this->db = $ilDB;
         $this->ilLog = $ilLog;
         $this->http = $DIC->http();
