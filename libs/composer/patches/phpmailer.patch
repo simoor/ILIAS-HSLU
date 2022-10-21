@@ -7,9 +7,11 @@ index 477ee82..d9d6cb8 100644
              $subject = $this->encodeHeader($this->secureHeader($subject));
          }
 +        // patch-mjansen: begin #20376
-+        if (0 == strlen($to) && strpos($header, 'To: undisclosed-recipients:;') !== false) {
++        if (0 == strlen($to) && strpos($header, 'To: undisclosed-recipients:;')$
 +            $to     = 'undisclosed-recipients:;';
-+            $header = preg_replace('/To: undisclosed-recipients:;(\s*)/', '', $header);
++        }
++        if (strpos($header, 'To: undisclosed-recipients:;') !== false) {
++            $header = preg_replace('/To: undisclosed-recipients:;(\s*)/', '', $$
 +        }
 +        // patch-mjansen: end
          //Calling mail() with null params breaks
@@ -17,7 +19,7 @@ index 477ee82..d9d6cb8 100644
          $this->edebug('Sendmail path: ' . ini_get('sendmail_path'));
 @@ -2553,19 +2559,22 @@
          $result = '';
- 
+
          $result .= $this->headerLine('Date', '' === $this->MessageDate ? self::rfcDate() : $this->MessageDate);
 -
 -        //The To header is created automatically by mail(), so needs to be omitted here
@@ -44,5 +46,5 @@ index 477ee82..d9d6cb8 100644
          }
 +        // patch-mjansen: end
          $result .= $this->addrAppend('From', [[trim($this->From), $this->FromName]]);
- 
+
          //sendmail and mail() extract Cc from the header before sending
