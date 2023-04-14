@@ -10914,6 +10914,7 @@ mathjax#:#mathjax_server_timeout_info#:#Timeout for calling the mathjax server i
 mathjax#:#mathjax_settings#:#MathJax Settings
 mathjax#:#mathjax_test_expression#:#Test Expression
 mathjax#:#mathjax_test_expression_info#:#This LaTeX expression will be rendered with the saved MathJax settings.
+mcst#:#mcst_add_multiple_items#:#Upload Multiple Files
 mcst#:#mcst_add_new_item#:#Add New Mediacast Item
 mcst#:#mcst_audioportable_settings_info#:#Comma separated list of file suffixes
 mcst#:#mcst_audioportable_settings_title#:#File Extensions for Audio Format
