@@ -48,8 +48,7 @@ abstract class ilTestExportPlugin extends ilPlugin
         string $id
     ) {
         parent::__construct($db, $component_repository, $id);
-        global $DIC;
-        $this->main_tpl = $DIC->ui()->mainTemplate();
+
     }
 
     /**
@@ -123,6 +122,8 @@ abstract class ilTestExportPlugin extends ilPlugin
         global $DIC;
         $lng = $DIC['lng'];
         $ilCtrl = $DIC['ilCtrl'];
+
+        $this->main_tpl = $DIC->ui()->mainTemplate();
 
         if (!$this->getTest() instanceof ilObjTest) {
             throw new ilException('Incomplete object configuration. Please pass an instance of ilObjTest before calling the export!');
