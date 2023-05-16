@@ -230,7 +230,7 @@ class ilDBUpdate
                         $this->error = (string) $check;
                         return false;
                     }
-                    unset($q);
+                    $q = "";
                 } //if
                 else {
                     /** @noinspection PhpUndefinedVariableInspection */
