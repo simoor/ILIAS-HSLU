@@ -29,7 +29,9 @@ class ilObjectCopyProgressTableGUI extends ilTable2GUI
 
     public function __construct(ilObjectCopyGUI $parent_obj, string $parent_cmd, int $id)
     {
-        $this->setId('obj_copy_progress_table_' . $id);
+        // BEGIN TEMP PATCH HSLU: Shorten ID-Prefix to fix Bug #37656 
+        $this->setId('obj_cpy_prg_table_' . $id);
+        // END TEMP PATCH HSLU: Shorten ID-Prefix to fix Bug #37656 
         parent::__construct($parent_obj, $parent_cmd);
     }
 
