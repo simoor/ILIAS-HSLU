@@ -458,7 +458,7 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
         $lng->loadLanguageModule('cntr');
 
-        if ($this->clipboard->hasEntries() && !$this->edit_order) {
+        if ($this->clipboard->hasEntries()) {
             // #11545
             $main_tpl->setPageFormAction($this->ctrl->getFormAction($this));
 
@@ -2537,7 +2537,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function trashObject(): void
     {
-        $this->checkPermission("write");
+        if (!$this->rbacsystem->checkAccess('write', $this->ref_id)) {
+            $this->ctrl->redirect($this, '');
+        }
+        
         $tpl = $this->tpl;
 
         $this->tabs_gui->activateTab('trash');
@@ -2578,7 +2581,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
 
     public function removeFromSystemObject(): void
     {
-        $this->checkPermission("write");
         $ru = new ilRepositoryTrashGUI($this);
         $ru->removeObjectsFromSystem($this->std_request->getTrashIds());
         $this->ctrl->redirect($this, "trash");
@@ -2608,7 +2610,6 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
     public function confirmRemoveFromSystemObject(): void
     {
         $lng = $this->lng;
-        $this->checkPermission("write");
         if (count($this->std_request->getTrashIds()) == 0) {
             $this->tpl->setOnScreenMessage('failure', $lng->txt("no_checkbox"), true);
             $this->ctrl->redirect($this, "trash");
