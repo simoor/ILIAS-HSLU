@@ -2545,6 +2545,10 @@ class ilContainerGUI extends ilObjectGUI implements ilDesktopItemHandling
      */
     public function trashObject(): void
     {
+        if (!$this->rbacsystem->checkAccess('write', $this->ref_id)) {
+            $this->ctrl->redirect($this, '');
+        }
+        
         $tpl = $this->tpl;
 
         $this->tabs_gui->activateTab('trash');
