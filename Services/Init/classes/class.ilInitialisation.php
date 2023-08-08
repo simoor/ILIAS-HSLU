@@ -1511,7 +1511,7 @@ class ilInitialisation
 
         if ($replace_super_globals) {
             $throwOnValueAssignment = defined('DEVMODE') && DEVMODE;
-
+            $throwOnValueAssignment = false; /* LiveVotiing still updates the POST var */
             $_GET = new SuperGlobalDropInReplacement($container['refinery'], $_GET, $throwOnValueAssignment);
             $_POST = new SuperGlobalDropInReplacement($container['refinery'], $_POST, $throwOnValueAssignment);
             $_COOKIE = new SuperGlobalDropInReplacement($container['refinery'], $_COOKIE, $throwOnValueAssignment);
