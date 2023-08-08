@@ -229,6 +229,7 @@ abstract class assQuestion
         $this->export_image_path = '';
         $this->shuffler = $DIC->refinery()->random()->dontShuffle();
         $this->lifecycle = ilAssQuestionLifecycle::getDraftInstance();
+        $this->original_id = null;
     }
 
     protected static $forcePassResultsUpdateEnabled = false;
