@@ -147,7 +147,7 @@ class ilNavigationHistory
                     if ($cnt <= 10 && !isset($items[$rec["ref_id"] . ":" . $rec["sub_obj_id"]]) && $tree->isInTree((int) $rec["ref_id"]) &&
                         (
                             !$objDefinition->isPluginTypeName($rec["type"]) ||
-                            $component_repository->getPluginById($rec["type"])->isActive()
+                            ($component_repository->hasPluginId($rec["type"]) && $component_repository->getPluginById($rec["type"])->isActive())
                         )) {
                         $link = ($rec["goto_link"] != "")
                                 ? $rec["goto_link"]
