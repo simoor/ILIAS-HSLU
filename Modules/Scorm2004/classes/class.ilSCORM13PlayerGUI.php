@@ -490,7 +490,7 @@ class ilSCORM13PlayerGUI
         }
 
         //disable top menu
-        if ($this->slm->getNoMenu() === "y") {
+        if ($this->slm->getNoMenu() === true) {
             $this->tpl->setVariable("VAL_DISPLAY", "style=\"display:none;\"");
         } else {
             $this->tpl->setVariable("VAL_DISPLAY", "");

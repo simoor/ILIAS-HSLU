@@ -192,6 +192,8 @@ class ilPasswordAssistanceGUI
      */
     public function submitAssistanceForm(): void
     {
+        \ilLoggerFactory::getLogger('usr')->error("submit_assistance_form 1");
+
         $form = $this->getAssistanceForm();
         if (!$form->checkInput()) {
             $form->setValuesByPost();
@@ -205,11 +207,16 @@ class ilPasswordAssistanceGUI
         }
 
         $assistance_callback = function () use ($form, $defaultAuth): void {
+
+            \ilLoggerFactory::getLogger('usr')->error("assistance_callback 1");
+
             $username = $form->getInput('username');
             $email = trim($form->getInput('email'));
 
             $usrId = \ilObjUser::getUserIdByLogin($username);
             if (!is_numeric($usrId) || !($usrId > 0)) {
+                \ilLoggerFactory::getLogger('usr')->error("assistance_callback 2");
+
                 \ilLoggerFactory::getLogger('usr')->info(
                     sprintf(
                         'Could not process password assistance form (reason: no user found) %s / %s',
@@ -226,12 +233,16 @@ class ilPasswordAssistanceGUI
 
             if (!in_array(strtolower($email), $emailAddresses)) {
                 if (0 === strlen(implode('', $emailAddresses))) {
+                    \ilLoggerFactory::getLogger('usr')->error("assistance_callback 3");
+
                     \ilLoggerFactory::getLogger('usr')->info(sprintf(
                         'Could not process password assistance form (reason: account without email addresses): %s / %s',
                         $username,
                         $email
                     ));
                 } else {
+                    \ilLoggerFactory::getLogger('usr')->error("assistance_callback4");
+
                     \ilLoggerFactory::getLogger('usr')->info(sprintf(
                         'Could not process password assistance form (reason: account email addresses differ from input): %s / %s',
                         $username,
@@ -246,6 +257,8 @@ class ilPasswordAssistanceGUI
                     $user->getAuthMode(true) == ilAuthUtils::AUTH_SAML
                 )
             ) {
+                \ilLoggerFactory::getLogger('usr')->error("assistance_callback 5");
+
                 \ilLoggerFactory::getLogger('usr')->info(sprintf(
                     'Could not process password assistance form (reason: not permitted for accounts using external authentication sources): %s / %s',
                     $username,
@@ -255,20 +268,27 @@ class ilPasswordAssistanceGUI
                 $this->rbacreview->isAssigned($user->getId(), ANONYMOUS_ROLE_ID) ||
                 $this->rbacreview->isAssigned($user->getId(), SYSTEM_ROLE_ID)
             ) {
+                \ilLoggerFactory::getLogger('usr')->error("assistance_callback 6");
+
                 \ilLoggerFactory::getLogger('usr')->info(sprintf(
                     'Could not process password assistance form (reason: not permitted for system user or anonymous): %s / %s',
                     $username,
                     $email
                 ));
             } else {
+                \ilLoggerFactory::getLogger('usr')->error("assistance_callback 7");
+
                 $this->sendPasswordAssistanceMail($user);
             }
         };
 
         if (null !== ($assistance_duration = $this->settings->get("account_assistance_duration"))) {
+            \ilLoggerFactory::getLogger('usr')->error("submit_assistance_form 2");
+
             $duration = $this->http->durations()->callbackDuration((int) $assistance_duration);
             $status = $duration->stretch($assistance_callback);
         } else {
+            \ilLoggerFactory::getLogger('usr')->error("submit_assistance_form 3");
             $status = $assistance_callback();
         }
 
