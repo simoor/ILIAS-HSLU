@@ -3671,7 +3671,7 @@
 					</xsl:choose>
 				</xsl:variable>
 				<script type="text/javascript">
-					if (typeof variable === 'undefined') {
+					if (typeof ilAccordionsInits === 'undefined') {
 						var ilAccordionsInits = [];
 					}
 					ilAccordionsInits.push({
@@ -3692,7 +3692,7 @@
 			</xsl:if>
 			<xsl:if test="@Type = 'Carousel' and $mode != 'print' and $compare_mode = 'n'">
 				<script type="text/javascript">
-					if (typeof variable === 'undefined') {
+					if (typeof ilAccordionsInits === 'undefined') {
 						var ilAccordionsInits = [];
 					}
 					ilAccordionsInits.push({
