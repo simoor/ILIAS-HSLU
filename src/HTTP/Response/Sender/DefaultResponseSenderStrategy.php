@@ -46,7 +46,13 @@ class DefaultResponseSenderStrategy implements ResponseSenderStrategy
 
         //render all headers
         foreach (array_keys($response->getHeaders()) as $key) {
-            header("$key: " . $response->getHeaderLine($key));
+            if (strtolower($key) === 'set-cookie') {
+                foreach ($response->getHeader($key) as $cookie) {
+                    header("$key: $cookie", false);
+                }
+            } else {
+                header("$key: " . $response->getHeaderLine($key));
+            }
         }
 
         //rewind body stream
