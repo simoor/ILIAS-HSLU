@@ -102,7 +102,10 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
                 }
             } catch (Exception $e) {
             }
-
+            /*
+            $out = new StringValue();
+            $out->setValue($input);
+            */
             return $download_name;
         }
 
@@ -122,7 +125,10 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
         $this->logger->debug("Deliver: " . $download_name->getValue());
         $this->logger->debug("As: " . $zip_name);
         ilFileDelivery::deliverFileAttached($download_name->getValue(), $zip_name);
-
+/*
+        $out = new StringValue();
+        $out->setValue($input);
+  */
         return $download_name;
     }
 }
