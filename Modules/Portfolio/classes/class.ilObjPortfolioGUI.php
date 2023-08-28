@@ -22,7 +22,7 @@ use ILIAS\GlobalScreen\ScreenContext\ContextServices;
  * Portfolio view gui class
  * @author Jörg Lützenkirchen <luetzenkirchen@leifos.com>
  * @ilCtrl_Calls ilObjPortfolioGUI: ilPortfolioPageGUI, ilPageObjectGUI
- * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI
+ * @ilCtrl_Calls ilObjPortfolioGUI: ilWorkspaceAccessGUI, ilNoteGUI, ilCommonActionDispatcherGUI
  * @ilCtrl_Calls ilObjPortfolioGUI: ilObjectContentStyleSettingsGUI, ilPortfolioExerciseGUI
  */
 class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
@@ -121,6 +121,12 @@ class ilObjPortfolioGUI extends ilObjPortfolioBaseGUI
 
             case "ilnotegui":
                 $this->preview();
+                break;
+
+            case "ilcommonactiondispatchergui":
+                //$this->prepareOutput();
+                $gui = ilCommonActionDispatcherGUI::getInstanceFromAjaxCall();
+                $this->ctrl->forwardCommand($gui);
                 break;
 
                 /*

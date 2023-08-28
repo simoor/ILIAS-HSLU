@@ -718,23 +718,6 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
 
         $this->ctrl->setParameter($this, "user_page", $current_page);
 
-        if (!$a_content) {
-            // #18291
-            if ($current_page) {
-                // get current page content
-                $page_gui = $this->getPageGUIInstance($current_page);
-                $page_gui->setEmbedded(true);
-
-                $content = $this->ctrl->getHTML($page_gui);
-            }
-        } else {
-            $content = $a_content;
-        }
-
-        if ($a_return && $this->checkPermissionBool("write")) {
-            return $content;
-        }
-
         // blog posting comments are handled within the blog
         $notes = "";
         if ($a_show_notes && $this->object->hasPublicComments() && !$current_blog && $current_page) {
@@ -754,6 +737,24 @@ abstract class ilObjPortfolioBaseGUI extends ilObject2GUI
                 $notes = $note_gui->getCommentsHTML();
             }
         }
+
+        if (!$a_content) {
+            // #18291
+            if ($current_page) {
+                // get current page content
+                $page_gui = $this->getPageGUIInstance($current_page);
+                $page_gui->setEmbedded(true);
+
+                $content = $this->ctrl->getHTML($page_gui);
+            }
+        } else {
+            $content = $a_content;
+        }
+
+        if ($a_return && $this->checkPermissionBool("write")) {
+            return $content;
+        }
+
 
         if ($this->perma_link === null) {
             if ($this->getType() === "prtf") {
