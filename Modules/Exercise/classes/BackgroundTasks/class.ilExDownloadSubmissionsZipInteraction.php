@@ -90,16 +90,18 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
             // delete zip file
             $filesystem = $DIC->filesystem()->temp();
             try {
-                $path = LegacyPathHelper::createRelativePath($zip_name->getValue());
+                $path = LegacyPathHelper::createRelativePath($download_name->getValue());
             } catch (InvalidArgumentException $e) {
                 $path = null;
             }
             if (!is_null($path) && $filesystem->has($path)) {
                 $filesystem->deleteDir(dirname($path));
             }
+            /*
             $out = new StringValue();
             $out->setValue($input);
-            return $out;
+            */
+            return $download_name;
         }
 
         $this->logger->info("Delivering File.");
@@ -116,9 +118,10 @@ class ilExDownloadSubmissionsZipInteraction extends AbstractUserInteraction
         //Download_name->getValue should return the complete path to the file
         //Zip name is just an string
         ilFileDelivery::deliverFileAttached($download_name->getValue(), $zip_name);
-
+/*
         $out = new StringValue();
         $out->setValue($input);
-        return $out;
+  */
+        return $download_name;
     }
 }
