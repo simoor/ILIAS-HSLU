@@ -747,7 +747,7 @@ class ilExSubmission
      */
     protected function getLastDownloadTime(
         array $a_user_ids
-    ): string {
+    ): ?string {
         $ilDB = $this->db;
         $ilUser = $this->user;
 
