@@ -32,28 +32,28 @@ class ilPCParagraph extends ilPageContent
     protected ilLanguage $lng;
 
     protected static array $bb_tags = array(
-            "com" => "Comment",
-            "emp" => "Emph",
-            "str" => "Strong",
-            "fn" => "Footnote",
-            "code" => "Code",
-            "acc" => "Accent",
-            "imp" => "Important",
-            "kw" => "Keyw",
-            "sub" => "Sub",
-            "sup" => "Sup",
-            "quot" => "Quotation",
-            );
+        "com" => "Comment",
+        "emp" => "Emph",
+        "str" => "Strong",
+        "fn" => "Footnote",
+        "code" => "Code",
+        "acc" => "Accent",
+        "imp" => "Important",
+        "kw" => "Keyw",
+        "sub" => "Sub",
+        "sup" => "Sup",
+        "quot" => "Quotation",
+    );
 
     /**
-    * converts a string of format var1 = "val1" var2 = "val2" ... into an array
-    *
-    * @param string $a_str string in format: var1 = "val1" var2 = "val2" ...
-    *
-    * @return    array        array of variable value pairs
-    * @static
-    *
-    */
+     * converts a string of format var1 = "val1" var2 = "val2" ... into an array
+     *
+     * @param string $a_str string in format: var1 = "val1" var2 = "val2" ...
+     *
+     * @return    array        array of variable value pairs
+     * @static
+     *
+     */
     public static function attribsToArray(string $a_str): array
     {
         $attribs = [];
@@ -272,7 +272,7 @@ class ilPCParagraph extends ilPageContent
             $text = str_replace("<SimpleNumberedList>", "\n<SimpleNumberedList>", $text);
             $text = str_replace("<Paragraph>\n", "<Paragraph>", $text);
             $text = str_replace("</Paragraph>", "</Paragraph>\n", $text);
-            $doc = new ilDOMDocument();
+            $doc = new ilDomDocument();
             $text = '<?xml version="1.0" encoding="UTF-8"?><Paragraph>' . $text . '</Paragraph>';
             //echo htmlentities($text);
             $doc->loadXML($text);
@@ -309,6 +309,9 @@ class ilPCParagraph extends ilPageContent
         //} catch (Exception $e) {
 
         //}
+        if (is_string($error) && $error != "") {
+            $error = [$error];
+        }
         return $error;
     }
 
@@ -603,6 +606,7 @@ class ilPCParagraph extends ilPageContent
         }
         // external links
         while (preg_match("~\[(xln$ws(url$ws=$ws\"([^\"])*\")$ws(target$ws=$ws(\"(Glossary|FAQ|Media)\"))?$ws)\]~i", $a_text, $found)) {
+            $old_text = $a_text;
             $attribs = self::attribsToArray($found[2]);
             if (isset($attribs["url"])) {
                 $a_text = self::replaceBBTagByMatching(
@@ -614,8 +618,9 @@ class ilPCParagraph extends ilPageContent
                         "Href" => $attribs["url"]
                     ]
                 );
-            } else {
-                $a_text = str_replace("[" . $found[1] . "]", "[error: xln" . $found[1] . "]", $a_text);
+            }
+            if ($old_text === $a_text) {
+                $a_text = str_replace("[" . $found[1] . "]", "[error: " . $found[1] . "]", $a_text);
             }
         }
 
@@ -717,7 +722,7 @@ class ilPCParagraph extends ilPageContent
             ? "/"
             : "";
 
-        $slash_chars = '/[]?';
+        $slash_chars = '/[]?()$*';
 
         if ($ok) {
             $replace_str = addcslashes($start_tag, $slash_chars);
@@ -1039,7 +1044,7 @@ class ilPCParagraph extends ilPageContent
         $li = false;
 
         $segments = ilPCParagraph::segmentString($a_text, array("<SimpleBulletList>", "</SimpleBulletList>",
-            "</SimpleListItem>", "<SimpleListItem>", "<SimpleListItem/>", "<SimpleNumberedList>", "</SimpleNumberedList>"));
+                                                                "</SimpleListItem>", "<SimpleListItem>", "<SimpleListItem/>", "<SimpleNumberedList>", "</SimpleNumberedList>"));
 
         $current_list = array();
         $text = "";
@@ -1096,7 +1101,7 @@ class ilPCParagraph extends ilPageContent
 
         // remove trailing <br />, if text ends with list
         if ((($segments[count($segments) - 1] ?? "") === "</SimpleBulletList>" ||
-            ($segments[count($segments) - 1] ?? "") === "</SimpleNumberedList>") &&
+                ($segments[count($segments) - 1] ?? "") === "</SimpleNumberedList>") &&
             substr($text, strlen($text) - 6) === "<br />") {
             $text = substr($text, 0, -6);
         }
@@ -1355,11 +1360,11 @@ class ilPCParagraph extends ilPageContent
                             if ($s3 > 0 || $head != "") {
                                 //echo "6";
                                 $chunks[] = array("level" => 0,
-                                    "text" => $this->removeTrailingBr($head . substr($c_text, 0, $s3)));
+                                                  "text" => $this->removeTrailingBr($head . substr($c_text, 0, $s3)));
                                 $head = "";
                             }
                             $chunks[] = array("level" => 3,
-                                "text" => trim(substr($c_text, $s3 + 9, $n - $s3 - 12)));
+                                              "text" => trim(substr($c_text, $s3 + 9, $n - $s3 - 12)));
                             $c_text = $this->handleNextBr(substr($c_text, $n + 6));
                         } else {
                             //echo "7";
@@ -1375,7 +1380,7 @@ class ilPCParagraph extends ilPageContent
                             if ($s2 > 0 || $head != "") {
                                 //echo "A";
                                 $chunks[] = array("level" => 0,
-                                    "text" => $this->removeTrailingBr($head . substr($c_text, 0, $s2)));
+                                                  "text" => $this->removeTrailingBr($head . substr($c_text, 0, $s2)));
                                 $head = "";
                             }
                             $chunks[] = array("level" => 2, "text" => trim(substr($c_text, $s2 + 8, $n - $s2 - 10)));
@@ -1392,12 +1397,12 @@ class ilPCParagraph extends ilPageContent
                         // found level one header
                         if ($s1 > 0 || $head != "") {
                             $chunks[] = array("level" => 0,
-                                "text" => $this->removeTrailingBr($head . substr($c_text, 0, $s1)));
+                                              "text" => $this->removeTrailingBr($head . substr($c_text, 0, $s1)));
                             $head = "";
                         }
                         $chunks[] = array("level" => 1, "text" => trim(substr($c_text, $s1 + 7, $n - $s1 - 8)));
                         $c_text = $this->handleNextBr(substr($c_text, $n + 6));
-                    //echo "<br>ctext:".htmlentities($c_text)."<br>";
+                        //echo "<br>ctext:".htmlentities($c_text)."<br>";
                     } else {
                         $head .= substr($c_text, 0, $n);
                         $c_text = substr($c_text, $n);
@@ -1423,10 +1428,10 @@ class ilPCParagraph extends ilPageContent
 
         // remove trailing br
         if (substr(
-            $chunks[count($chunks) - 1]["text"],
-            strlen($chunks[count($chunks) - 1]["text"]) - 6,
-            6
-        ) == "<br />") {
+                $chunks[count($chunks) - 1]["text"],
+                strlen($chunks[count($chunks) - 1]["text"]) - 6,
+                6
+            ) == "<br />") {
             $chunks[count($chunks) - 1]["text"] =
                 substr($chunks[count($chunks) - 1]["text"], 0, strlen($chunks[count($chunks) - 1]["text"]) - 6);
             if ($chunks[count($chunks) - 1]["text"] == "") {
@@ -1683,13 +1688,13 @@ class ilPCParagraph extends ilPageContent
                     $text
                 );
                 $text = str_replace(
-                    array('<sup class="ilc_sup_Sup">', "</sup>"),
-                    array("[sup]", "[/sup]"),
+                    array('<sup class="ilc_sup_Sup">', '<sup>', "</sup>"),
+                    array("[sup]", "[sup]", "[/sup]"),
                     $text
                 );
                 $text = str_replace(
-                    array('<sub class="ilc_sub_Sub">', "</sub>"),
-                    array("[sub]", "[/sub]"),
+                    array('<sub class="ilc_sub_Sub">', '<sub>', "</sub>"),
+                    array("[sub]", "[sub]", "[/sub]"),
                     $text
                 );
 
