@@ -1211,10 +1211,10 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
     *
     * @param string $a_original The original (correct) text
     * @param string $a_entered The text entered by the user
-    * @param integer $max_points The maximum number of points for the solution
+    * @param float $max_points The maximum number of points for the solution
     * @access public
     */
-    public function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound): int
+    public function getNumericgapPoints($a_original, $a_entered, $max_points, $lowerBound, $upperBound): float
     {
         // fau: fixGapFormula - check entered value by evalMath
         //		if( ! $this->checkForValidFormula($a_entered) )
