@@ -1256,7 +1256,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
      * @param integer $pass
      * @param boolean $returndetails (deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         $ilDB = $this->db;
 
@@ -1974,7 +1974,7 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $points;
     }
 
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session)
+    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $preview_session): float
     {
         $participant_session = $preview_session->getParticipantsSolution();
 

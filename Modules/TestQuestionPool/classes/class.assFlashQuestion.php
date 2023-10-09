@@ -418,7 +418,7 @@ class assFlashQuestion extends assQuestion implements ilObjQuestionScoringAdjust
         return $points;
     }
 
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession): float
     {
         $points = 0;
         foreach ($previewSession->getParticipantsSolution() as $solution) {

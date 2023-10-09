@@ -318,7 +318,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
         return $this->getPoints();
     }
 
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession): float
     {
         $points = 0;
         if ($this->contains($previewSession->getParticipantsSolution())) {
@@ -342,7 +342,7 @@ class assNumeric extends assQuestion implements ilObjQuestionScoringAdjustable, 
      *
      * @return integer|array $points/$details (array $details is deprecated !!)
      */
-    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false)
+    public function calculateReachedPoints($active_id, $pass = null, $authorizedSolution = true, $returndetails = false): float
     {
         if ($returndetails) {
             throw new ilTestException('return details not implemented for ' . __METHOD__);

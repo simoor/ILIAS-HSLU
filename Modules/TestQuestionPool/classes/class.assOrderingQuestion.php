@@ -696,7 +696,7 @@ class assOrderingQuestion extends assQuestion implements ilObjQuestionScoringAdj
         return $this->calculateReachedPointsForSolution($solutionOrderingElementList);
     }
 
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession): float
     {
         if (!$previewSession->hasParticipantSolution()) {
             return 0;
