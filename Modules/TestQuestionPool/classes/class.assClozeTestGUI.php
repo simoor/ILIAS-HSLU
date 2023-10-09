@@ -970,7 +970,7 @@ JS;
             if ($active_id) {
                 if ($graphicalOutput) {
                     // output of ok/not ok icons for user entered solutions
-                    $details = $this->object->calculateReachedPoints($active_id, $pass, true, true);
+                    $details = $this->object->calculateReachedPointsDetails($active_id, $pass, true);
                     $check = $details[$gap_index] ?? [];
 
                     if (count($check_for_gap_combinations) != 0) {

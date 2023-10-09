@@ -1286,6 +1286,40 @@ class assClozeTest extends assQuestion implements ilObjQuestionScoringAdjustable
         return $this->calculateReachedPointsForSolution($user_result);
     }
 
+    /**
+     * Returns details of the points, a learner has reached answering the question.
+     * The points are calculated from the given answers.
+     *
+     * @access public
+     * @param integer $active_id
+     * @param integer $pass
+     * @param boolean $returndetails (deprecated !!)
+     */
+    public function calculateReachedPointsDetails($active_id, $pass = null, $authorizedSolution = true): array
+    {
+        $ilDB = $this->db;
+
+        if (is_null($pass)) {
+            $pass = $this->getSolutionMaxPass($active_id);
+        }
+
+        $result = $this->getCurrentSolutionResultSet($active_id, $pass, $authorizedSolution);
+        $user_result = [];
+        while ($data = $ilDB->fetchAssoc($result)) {
+            if (strcmp($data["value2"], "") != 0) {
+                $user_result[$data["value1"]] = array(
+                    "gap_id" => $data["value1"],
+                    "value" => $data["value2"]
+                );
+            }
+        }
+
+        ksort($user_result); // this is required when identical scoring for same solutions is disabled
+
+        $detailed = [];
+        $this->calculateReachedPointsForSolution($user_result, $detailed);
+        return $detailed;
+    }
     protected function isValidNumericSubmitValue($submittedValue): bool
     {
         if (is_numeric($submittedValue)) {
