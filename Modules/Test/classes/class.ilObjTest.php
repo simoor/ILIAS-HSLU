@@ -4686,7 +4686,6 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
         if ($question_id > 0) {
             $question->object->loadFromDb($question_id);
-
             global $DIC;
             $ilCtrl = $DIC['ilCtrl'];
             $ilDB = $DIC['ilDB'];
