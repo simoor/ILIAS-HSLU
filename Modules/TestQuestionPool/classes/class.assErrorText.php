@@ -886,7 +886,7 @@ class assErrorText extends assQuestion implements ilObjQuestionScoringAdjustable
      *
      * @param list<string>|null $selected_words Positions of Selected Words Counting from 0
      */
-    protected function getPointsForSelectedPositions(?array $selected_words): int
+    protected function getPointsForSelectedPositions(?array $selected_words): float
     {
         $passages = [];
         $words = [];

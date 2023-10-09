@@ -2703,7 +2703,7 @@ abstract class assQuestion
         return $reachedPoints;
     }
 
-    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession)
+    public function calculateReachedPointsFromPreviewSession(ilAssQuestionPreviewSession $previewSession): float
     {
         $reachedPoints = $this->calculateReachedPointsForSolution($previewSession->getParticipantsSolution());
         $reachedPoints = $this->deductHintPointsFromReachedPoints($previewSession, $reachedPoints);
@@ -2711,7 +2711,7 @@ abstract class assQuestion
         return $this->ensureNonNegativePoints($reachedPoints);
     }
 
-    protected function ensureNonNegativePoints($points)
+    protected function ensureNonNegativePoints($points): ?float
     {
         return $points > 0 ? $points : 0;
     }
