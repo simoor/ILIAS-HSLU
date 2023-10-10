@@ -385,11 +385,14 @@ class assClozeGap
                     array_push($best_solutions[$combinations['points']], $combinations['answer']);
                 } else {
                     foreach ($this->getItems($shuffler) as $answer) {
-                        if (isset($best_solutions[$answer->getPoints()]) && is_array($best_solutions[$answer->getPoints()])) {
-                            array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
-                        } else {
-                            $best_solutions[$answer->getPoints()] = [];
-                            array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
+                        // only add answers to solution which have points
+                        if ($answer->getPoints() != 0) {
+                            if (isset($best_solutions[$answer->getPoints()]) && is_array($best_solutions[$answer->getPoints()])) {
+                                array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
+                            } else {
+                                $best_solutions[$answer->getPoints()] = [];
+                                array_push($best_solutions[$answer->getPoints()], $answer->getAnswertext());
+                            }
                         }
                     }
                 }
