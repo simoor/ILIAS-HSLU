@@ -128,9 +128,9 @@ class ilUserPasswordEncoderFactory
      * @return ilPasswordEncoder
      * @throws ilUserException
      */
-    public function getEncoderByName(string $name, bool $get_default_on_mismatch = false): ilPasswordEncoder
+    public function getEncoderByName(?string $name, bool $get_default_on_mismatch = false): ilPasswordEncoder
     {
-        if (!isset($this->encoders[$name])) {
+        if ($name == null || !isset($this->encoders[$name])) {
             if (!$get_default_on_mismatch) {
                 throw new ilUserException(sprintf('The encoder "%s" was not configured.', $name));
             } elseif (!$this->getDefaultEncoder()) {
