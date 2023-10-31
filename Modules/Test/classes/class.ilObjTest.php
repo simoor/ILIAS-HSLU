@@ -8744,7 +8744,12 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     public function applyDefaults($test_defaults): bool
     {
         $testsettings = unserialize($test_defaults["defaults"]);
-        $this->mark_schema = unserialize($test_defaults["marks"]);
+
+        // deal with problem of deserialization of serialized formerly untyped objects
+        $string = preg_replace('/("minimum_level";)s:(\d+):"(\d+)";/', '$1d:$3;', $test_defaults["marks"]);
+        $string = preg_replace('/("passed";)s:(\d+):"(\d+)";/', '$1i:$3;', $string);
+
+        $this->mark_schema = unserialize($string);
 
         $this->setTitleOutput($testsettings["TitleOutput"]);
         $this->setIntroductionEnabled($testsettings["IntroEnabled"]);
