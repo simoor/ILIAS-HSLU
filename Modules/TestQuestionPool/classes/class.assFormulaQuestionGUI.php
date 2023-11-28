@@ -907,7 +907,7 @@ class assFormulaQuestionGUI extends assQuestionGUI
             'correct' => $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_OK),
             'not_correct' => $this->generateCorrectnessIconsForCorrectness(self::CORRECTNESS_NOT_OK)
         ];
-        $questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, $show_correct_solution, $result_output, $correctness_icons);
+        $questiontext = $this->object->substituteVariables($user_solution, $graphicalOutput, $show_correct_solution,  $result_output, $correctness_icons);
 
         $template->setVariable("QUESTIONTEXT", $this->object->prepareTextareaOutput($questiontext, true));
         $questionoutput = $template->get();
