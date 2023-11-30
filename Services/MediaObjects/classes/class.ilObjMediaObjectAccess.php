@@ -58,7 +58,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                     $usages2 = ilMediaPoolPage::lookupUsages($usage["id"]);
                     foreach ($usages2 as $usage2) {
                         $oid2 = ilObjMediaObject::getParentObjectIdForUsage($usage2, true);
-                        if ($this->checkAccessMobUsage($usage2, $oid2)) {
+                        if ($oid2 == null || $this->checkAccessMobUsage($usage2, $oid2)) {
                             return true;
                         }
                     }
@@ -71,7 +71,7 @@ class ilObjMediaObjectAccess implements ilWACCheckingClass
                     break;
 
                 default:
-                    if ($this->checkAccessMobUsage($usage, $oid)) {
+                    if ($oid == null || $this->checkAccessMobUsage($usage, $oid)) {
                         return true;
                     }
                     break;
