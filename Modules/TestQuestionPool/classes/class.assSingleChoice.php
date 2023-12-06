@@ -255,7 +255,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                     $data["imagefile"] = "";
                 }
 
-                $data["answertext"] = ilRTE::_replaceMediaObjectImageSrc($data["answertext"], 1);
+                $data["answertext"] = ilRTE::_replaceMediaObjectImageSrc((string)$data["answertext"], 1);
                 $image = new ASS_AnswerBinaryStateImage($data["answertext"], $data["points"], $data["aorder"], 1, -1);
                 $image->setImage($data["imagefile"]);
                 $this->answers[] = $image;
