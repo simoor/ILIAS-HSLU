@@ -733,7 +733,7 @@ class assSingleChoice extends assQuestion implements ilObjQuestionScoringAdjusta
                 array(
                                     $next_id,
                                     $this->getId(),
-                                    ilRTE::_replaceMediaObjectImageSrc($answer_obj->getAnswertext(), 0),
+                                    ilRTE::_replaceMediaObjectImageSrc((string)$answer_obj->getAnswertext(), 0),
                                     $answer_obj->getPoints(),
                                     $answer_obj->getOrder(),
                                     $answer_obj->getImage(),
