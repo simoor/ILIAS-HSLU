@@ -1649,7 +1649,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->ects_grades;
     }
 
-    public function setECTSGrades(array $a_ects_grades): void
+    public function setECTSGrades($a_ects_grades): void
     {
         $this->ects_grades = ($a_ects_grades) ? $a_ects_grades : array();
     }
