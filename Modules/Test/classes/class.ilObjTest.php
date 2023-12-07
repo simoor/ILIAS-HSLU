@@ -1496,7 +1496,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setIntroductionEnabled($introductionEnabled): void
     {
-        $this->introductionEnabled = $introductionEnabled;
+        $this->introductionEnabled = (bool) $introductionEnabled;
     }
 
     public function getIntroduction(): string
