@@ -1631,7 +1631,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setECTSOutput($a_ects_output): void
     {
-        $this->ects_output = $a_ects_output ? 1 : 0;
+        $this->ects_output = ($a_ects_output) ? true : false;
     }
 
     public function getECTSFX(): ?float
@@ -2005,7 +2005,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setBlockPassesAfterPassedEnabled($blockPassesAfterPassedEnabled)
     {
-        $this->blockPassesAfterPassedEnabled = $blockPassesAfterPassedEnabled;
+        $this->blockPassesAfterPassedEnabled = ($blockPassesAfterPassedEnabled) ? true : false;
     }
 
     /**
@@ -2030,7 +2030,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function setKiosk($kiosk = 0)
     {
-        $this->_kiosk = $kiosk;
+        $this->_kiosk = ($kiosk) ? $kiosk : 0;
     }
 
     /**
@@ -2316,7 +2316,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setStartingTimeEnabled($starting_time_enabled)
     {
-        $this->starting_time_enabled = $starting_time_enabled;
+        $this->starting_time_enabled =  ($starting_time_enabled) ? true : false;
     }
 
     /**
@@ -2353,7 +2353,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setEndingTimeEnabled($ending_time_enabled)
     {
-        $this->ending_time_enabled = $ending_time_enabled;
+        $this->ending_time_enabled = ($ending_time_enabled) ? $ending_time_enabled : 0;
     }
 
     /**
@@ -2389,7 +2389,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function setNrOfTries($nr_of_tries = 0)
     {
-        $this->nr_of_tries = $nr_of_tries;
+        $this->nr_of_tries = ($nr_of_tries) ? $nr_of_tries : 0;
     }
 
     /**
@@ -2410,7 +2410,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setRedirectionMode($redirection_mode = 0)
     {
-        $this->redirection_mode = $redirection_mode;
+        $this->redirection_mode = ($redirection_mode) ? $redirection_mode : 0;
     }
     public function getRedirectionMode(): int
     {
@@ -2509,7 +2509,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setPasswordEnabled($passwordEnabled)
     {
-        $this->passwordEnabled = $passwordEnabled;
+        $this->passwordEnabled = ($passwordEnabled) ? $passwordEnabled : 0;
     }
 
     public function getPassword(): ?string
@@ -8095,7 +8095,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setLimitUsersEnabled(bool $limitUsersEnabled): void
     {
-        $this->limitUsersEnabled = $limitUsersEnabled;
+        $this->limitUsersEnabled = ($limitUsersEnabled) ? true : false;
     }
 
     public function getAllowedUsers()
@@ -8105,7 +8105,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setAllowedUsers($a_allowed_users)
     {
-        $this->allowedUsers = $a_allowed_users;
+        $this->allowedUsers = ($a_allowed_users) ? $a_allowed_users : 0;
     }
 
     public function getAllowedUsersTimeGap()
@@ -9455,7 +9455,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setMailNotification($a_notification)
     {
-        $this->mailnotification = $a_notification;
+        $this->mailnotification = ($a_notification) ? $a_notification : 0;
     }
 
     public function sendSimpleNotification($active_id)
@@ -10105,7 +10105,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setAutosave($autosave)
     {
-        $this->autosave = $autosave;
+        $this->autosave = ($autosave) ? true : false;
     }
 
     public function getAutosave(): bool
@@ -10115,7 +10115,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setAutosaveIval($autosave_ival)
     {
-        $this->autosave_ival = $autosave_ival;
+        $this->autosave_ival =($autosave_ival) ? $autosave_ival : 0;
     }
 
     public function getAutosaveIval(): int
@@ -10583,7 +10583,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setSkillServiceEnabled($skillServiceEnabled)
     {
-        $this->skillServiceEnabled = $skillServiceEnabled;
+        $this->skillServiceEnabled = ($skillServiceEnabled) ? true : false;
     }
 
     public function isSkillServiceEnabled(): bool
@@ -10638,7 +10638,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setShowGradingStatusEnabled($showGradingStatusEnabled)
     {
-        $this->showGradingStatusEnabled = $showGradingStatusEnabled;
+        $this->showGradingStatusEnabled = ($showGradingStatusEnabled) ? true : false;
     }
 
     public function isShowGradingStatusEnabled(): bool
@@ -10648,7 +10648,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setShowGradingMarkEnabled($showGradingMarkEnabled)
     {
-        $this->showGradingMarkEnabled = $showGradingMarkEnabled;
+        $this->showGradingMarkEnabled =  ($showGradingMarkEnabled) ? true : false;
     }
 
 
@@ -10659,7 +10659,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setFollowupQuestionAnswerFixationEnabled($followupQuestionAnswerFixationEnabled)
     {
-        $this->followupQuestionAnswerFixationEnabled = $followupQuestionAnswerFixationEnabled;
+        $this->followupQuestionAnswerFixationEnabled = ($followupQuestionAnswerFixationEnabled) ? true : false;
     }
 
     public function isFollowupQuestionAnswerFixationEnabled(): bool
@@ -10669,7 +10669,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setInstantFeedbackAnswerFixationEnabled($instantFeedbackAnswerFixationEnabled)
     {
-        $this->instantFeedbackAnswerFixationEnabled = $instantFeedbackAnswerFixationEnabled;
+        $this->instantFeedbackAnswerFixationEnabled = ($instantFeedbackAnswerFixationEnabled) ? true : false;
     }
 
     public function isInstantFeedbackAnswerFixationEnabled(): bool
@@ -10687,7 +10687,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setForceInstantFeedbackEnabled($forceInstantFeedbackEnabled): void
     {
-        $this->forceInstantFeedbackEnabled = $forceInstantFeedbackEnabled;
+        $this->forceInstantFeedbackEnabled = ($forceInstantFeedbackEnabled) ? true : false;
     }
 
     public static function ensureParticipantsLastActivePassFinished($testObjId, $userId, $a_force_new_run = false): void
