@@ -1523,7 +1523,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function setShowInfo($a_info = 1)
     {
-        $this->_showinfo = ($a_info) ? 1 : 0;
+        $this->_showinfo = ($a_info) ? true : false;
     }
 
     /**
@@ -1671,7 +1671,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setSequenceSettings($sequence_settings = 0): void
     {
-        $this->sequence_settings = $sequence_settings;
+        $this->sequence_settings = ($sequence_settings) ? (int)$sequence_settings : 0;
     }
 
     public function isPostponingEnabled(): bool
@@ -1693,7 +1693,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setScoreReporting($score_reporting = 0): void
     {
-        $this->score_reporting = (int) $score_reporting;
+        $this->score_reporting = ($score_reporting) ? (int)$score_reporting : 0;
     }
 
     /**
@@ -7754,7 +7754,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function setShuffleQuestions($a_shuffle)
     {
-        $this->shuffle_questions = ($a_shuffle) ? 1 : 0;
+        $this->shuffle_questions = ($a_shuffle) ? true : false;
     }
 
     /**
@@ -7788,7 +7788,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
     */
     public function setListOfQuestionsSettings($a_value = 0)
     {
-        $this->show_summary = $a_value;
+        $this->show_summary = ($a_value) ? true : false;
     }
 
     /**
@@ -10134,7 +10134,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setShowExamviewHtml($show_examview_html): void
     {
-        $this->show_examview_html = $show_examview_html;
+        $this->show_examview_html = ($show_examview_html) ? true : false;
     }
 
     /**
@@ -10150,7 +10150,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setShowExamviewPdf($show_examview_pdf): void
     {
-        $this->show_examview_pdf = $show_examview_pdf;
+        $this->show_examview_pdf = ($show_examview_pdf) ? true : false;
     }
 
     /**
@@ -10166,7 +10166,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setEnableExamview($enable_examview): void
     {
-        $this->enable_examview = $enable_examview;
+        $this->enable_examview = ($enable_examview) ? true : false;
     }
 
     /**
@@ -10310,7 +10310,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setEnableArchiving($enable_archiving): ilObjTest
     {
-        $this->enable_archiving = $enable_archiving;
+        $this->enable_archiving =  ($enable_archiving) ? true : false;
         return $this;
     }
 
@@ -10379,7 +10379,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
 
     public function setShowExamIdInTestPassEnabled($show_exam_id_in_test_pass_enabled)
     {
-        $this->show_exam_id_in_test_pass_enabled = $show_exam_id_in_test_pass_enabled;
+        $this->show_exam_id_in_test_pass_enabled =  ($show_exam_id_in_test_pass_enabled) ? true : false;
     }
 
     public function isShowExamIdInTestPassEnabled(): bool
@@ -10400,7 +10400,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
      */
     public function setSignSubmission($sign_submission)
     {
-        $this->sign_submission = $sign_submission;
+        $this->sign_submission = ($sign_submission) ? true : false;
     }
 
     /**
