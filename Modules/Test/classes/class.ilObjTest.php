@@ -8093,7 +8093,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         return $this->limitUsersEnabled;
     }
 
-    public function setLimitUsersEnabled(?bool $limitUsersEnabled): void
+    public function setLimitUsersEnabled($limitUsersEnabled): void
     {
         $this->limitUsersEnabled = ($limitUsersEnabled) ? true : false;
     }
