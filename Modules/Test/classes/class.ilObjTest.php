@@ -7289,24 +7289,22 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $bestrow = null;
         $bestfactor = 0;
         while ($row = $ilDB->fetchAssoc($result)) {
-            if ($bestrow === null) {
-                $bestrow = $row;
-                continue;
-            }
             if ($row["maxpoints"] > 0) {
                 $factor = $row["points"] / $row["maxpoints"];
             } else {
                 $factor = 0;
             }
-            if ($factor > $bestfactor) {
+            if ($factor > $bestfactor || $bestrow === null) {
                 $bestrow = $row;
                 $bestfactor = $factor;
             }
         }
 
         if (is_array($bestrow)) {
+            $DIC->logger()->root()->error("_getBestPass_bestrow_pass_" . $bestrow["pass"] );
             return $bestrow["pass"];
         }
+        $DIC->logger()->root()->error("_getBestPass_bestrow_pass_not_found");
 
         return null;
     }
