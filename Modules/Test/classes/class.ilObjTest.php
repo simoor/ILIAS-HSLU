@@ -7301,10 +7301,8 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         }
 
         if (is_array($bestrow)) {
-            $DIC->logger()->root()->error("_getBestPass_bestrow_pass_" . $bestrow["pass"] );
             return $bestrow["pass"];
         }
-        $DIC->logger()->root()->error("_getBestPass_bestrow_pass_not_found");
 
         return null;
     }
