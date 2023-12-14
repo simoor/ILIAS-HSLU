@@ -1280,7 +1280,13 @@ abstract class assQuestion
     public function getTestOutputSolutions(int $activeId, int $pass): array
     {
         if ($this->getTestPresentationConfig()->isSolutionInitiallyPrefilled()) {
+            if (empty($this->getSolutionValues($activeId, $pass, true))) {
+                echo "_renderQuestionTextForTestResults ERROR";
+            }
             return $this->getSolutionValues($activeId, $pass, true);
+        }
+        if (empty( $this->getUserSolutionPreferingIntermediate($activeId, $pass))) {
+            echo "_renderQuestionTextForTestResults ERROR";
         }
         return $this->getUserSolutionPreferingIntermediate($activeId, $pass);
     }
@@ -1641,7 +1647,7 @@ abstract class assQuestion
         return $this->db->numRows($result);
     }
 
-    public static function _getTotalRightAnswers(int $a_q_id): int
+    public static function _getTotalRightAnswers(int $a_q_id): float
     {
         global $DIC;
         $ilDB = $DIC['ilDB'];
@@ -1673,8 +1679,8 @@ abstract class assQuestion
             $max += $value["max"];
             $reached += $value["reached"];
         }
-        if ($max > 0) {
-            return $reached / $max;
+        if ($max > 0 && $reached > 0 ) {
+            return (float)$reached / (float)$max;
         }
         return 0;
     }
