@@ -166,8 +166,12 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
     */
     public function setValueByArray($a_values)
     {
-        $incoming = $a_values[$this->getPostVar()];
-        $this->setDate(ilCalendarUtil::parseIncomingDate($incoming, $this->getDatePickerTimeFormat()));
+        if ($this->valid_incoming_datetime !== null) {
+            $this->setDate($this->valid_incoming_datetime);
+        } else {
+            $incoming = $a_values[$this->getPostVar()];
+            $this->setDate(ilCalendarUtil::parseIncomingDate($incoming, $this->getDatePickerTimeFormat()));
+        }
                 
         foreach ($this->getSubItems() as $item) {
             $item->setValueByArray($a_values);
@@ -231,6 +235,7 @@ class ilDateTimeInputGUI extends ilSubEnabledFormPropertyGUI implements ilTableF
                 $post_format = $this->getShowTime()
                     ? IL_CAL_DATETIME
                     : IL_CAL_DATE;
+                $this->valid_incoming_datetime = $this->getDate();
                 $_POST[$this->getPostVar()] = $this->getDate()->get($post_format);
             } else {
                 $_POST[$this->getPostVar()] = null;
