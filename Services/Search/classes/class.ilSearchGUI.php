@@ -96,6 +96,7 @@ class ilSearchGUI extends ilSearchBaseGUI
                 $this->refinery->always(null)
             ])
         );
+        //$post_type = ilSearchBaseGUI::SEARCH_DETAILS;
         $post_area = $this->http->wrapper()->post()->retrieve(
             'area',
             $this->refinery->byTrying([
@@ -616,6 +617,10 @@ class ilSearchGUI extends ilSearchBaseGUI
         $obj_search = ilObjectSearchFactory::_getObjectSearchInstance($query_parser);
         if ($this->getType() == ilSearchBaseGUI::SEARCH_DETAILS) {
             $obj_search->setFilter($this->__getFilter());
+        }
+        else{
+            // TEMP PATCH HSLU: Add Datensammlungen to searchable object types
+            $obj_search->appendToFilter('dcl');
         }
         $this->parseCreationFilter($obj_search);
         return $obj_search->performSearch();
