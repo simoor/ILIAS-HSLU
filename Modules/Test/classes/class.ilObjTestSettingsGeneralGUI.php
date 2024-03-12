@@ -1553,14 +1553,13 @@ class ilObjTestSettingsGeneralGUI extends ilTestSettingsGUI
                 $this->testOBJ->setRedirectionMode(($form->getInput('redirection_mode')));
             }
         } else {
-            $this->testOBJ->setRedirectionMode(REDIRECT_NONE);
+            $this->testOBJ->setRedirectionUrl(null);
         }
         if ($this->formPropertyExists($form, 'redirection_url')) {
             $this->testOBJ->setRedirectionUrl($form->getInput('redirection_url'));
         } else {
             $this->testOBJ->setRedirectionUrl(null);
         }
-
         if ($this->formPropertyExists($form, 'sign_submission')) {
             $this->testOBJ->setSignSubmission((bool) $form->getInput('sign_submission'));
         }
