@@ -101,13 +101,14 @@ final class LegacyPathHelper
             ] = self::listPaths();
 
         switch (true) {
-            case self::checkPossiblePath($temp, $absolute_path):
-                return self::filesystems()->temp();
-            case self::checkPossiblePath($web, $absolute_path):
-                return self::filesystems()->web();
+
             case self::checkPossiblePath($webRelativeWithLeadingDot, $absolute_path):
                 return self::filesystems()->web();
             case self::checkPossiblePath($webRelativeWithoutLeadingDot, $absolute_path):
+                return self::filesystems()->web();
+            case self::checkPossiblePath($temp, $absolute_path):
+                return self::filesystems()->temp();
+            case self::checkPossiblePath($web, $absolute_path):
                 return self::filesystems()->web();
             case self::checkPossiblePath($storage, $absolute_path):
                 return self::filesystems()->storage();
