@@ -283,12 +283,16 @@ abstract class ilDataSet
             $rec = $this->getXmlRecord($a_entity, $a_schema_version, $d);
             foreach ($rec as $f => $c) {
                 if ((($types[$f] ?? "") == "directory") && $this->absolute_export_dir !== "" && $this->relative_export_dir !== "") {
-                    ilFileUtils::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
+                    // PATCH HSLU: Bug caused stylesheet objects to be created in style_data but no image folder was created
                     $sdir = realpath($c);
-                    $tdir = realpath($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
-                    ilFileUtils::rCopy($sdir, $tdir);
-                    $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
-                    $this->dircnt++;
+                    if(!empty($sdir)){
+                        ilFileUtils::makeDirParents($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
+                        $tdir = realpath($this->absolute_export_dir . "/dsDir_" . $this->dircnt);
+                        ilFileUtils::rCopy($sdir, $tdir);
+                        $c = $this->relative_export_dir . "/dsDir_" . $this->dircnt;
+                        $this->dircnt++;
+                    }
+                    // PATCH HSLU: Bug caused stylesheet objects to be created in style_data but no image folder was created
                 }
                 // this changes schema/dtd
                 //$a_writer->xmlElement($a_prefixes[$a_entity].":".$f,
