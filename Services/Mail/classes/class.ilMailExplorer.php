@@ -35,6 +35,8 @@ class ilMailExplorer extends ilTreeExplorerGUI
     private GlobalHttpState $http;
     private Refinery $refinery;
     private int $currentFolderId = 0;
+    private int $root_folder_id;
+    private int $root_node_id;
 
     public function __construct(ilMailGUI $parentObject, int $userId)
     {
@@ -45,6 +47,15 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->tree = new ilTree($userId);
         $this->tree->setTableNames('mail_tree', 'mail_obj_data');
 
+        $this->root_folder_id = (new ilMailbox($userId))->getRooFolder();
+        $this->root_node_id = $this->tree->readRootId();
+
+        if ($this->root_folder_id !== $this->root_node_id) {
+            $DIC->logger()->mail()->error(
+                "Root folder id $this->root_folder_id does not match root node id $this->root_node_id for user $userId"
+            );
+        }
+
         parent::__construct('mail_exp', $parentObject, '', $this->tree);
 
         $this->initFolder();
@@ -52,6 +63,28 @@ class ilMailExplorer extends ilTreeExplorerGUI
         $this->setSkipRootNode(true);
         $this->setAjax(false);
         $this->setOrderField('title,m_type');
+    }
+
+    /**
+     * Workaround for: https://mantis.ilias.de/view.php?id=40716
+     * @param array<string, mixed> $root
+     * @return array<string, mixed>
+     */
+    private function repairRootNode(array $root): array
+    {
+        if (!isset($root['child']) && $this->root_node_id !== $this->root_folder_id) {
+            $root['child'] = $this->root_node_id;
+            $root['obj_id'] = $this->root_node_id;
+            $root['parent'] = 0;
+            $root['depth'] = 1;
+            $root['title'] = 'a_root';
+            $root['m_type'] = 'root';
+            $root['lft'] = 1;
+            $root['rgt'] = PHP_INT_MAX;
+            $root['user_id'] = $this->tree->getTreeId();
+        }
+
+        return $root;
     }
 
     protected function initFolder(): void
@@ -81,7 +114,7 @@ class ilMailExplorer extends ilTreeExplorerGUI
 
         return $f->tree()
             ->expandable($this->getTreeLabel(), $this)
-            ->withData($this->tree->getChilds($this->tree->readRootId()))
+            ->withData($this->tree->getChilds($this->root_node_id))
             ->withHighlightOnNodeClick(false);
     }
 
@@ -98,6 +131,11 @@ class ilMailExplorer extends ilTreeExplorerGUI
         return [
             ilMailGUI::class,
         ];
+    }
+
+    public function getRootNode(): array
+    {
+        return $this->repairRootNode(parent::getRootNode());
     }
 
     public function getNodeContent($a_node): string

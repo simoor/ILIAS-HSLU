@@ -80,7 +80,18 @@ class ilMailbox
             ];
         }
     }
+    public function getRooFolder(): int
+    {
+        $res = $this->db->queryF(
+            'SELECT obj_id FROM ' . $this->table_mail_obj_data . ' WHERE user_id = %s AND m_type = %s',
+            ['integer', 'text'],
+            [$this->usrId, 'root']
+        );
 
+        $row = $this->db->fetchAssoc($res);
+
+        return (int) $row['obj_id'];
+    }
     public function getInboxFolder(): int
     {
         $res = $this->db->queryF(
@@ -131,11 +142,6 @@ class ilMailbox
         $row = $this->db->fetchAssoc($res);
 
         return (int) $row['obj_id'];
-    }
-
-    private function getRootFolderId(): int
-    {
-        return $this->mtree->getRootId();
     }
 
     /**
