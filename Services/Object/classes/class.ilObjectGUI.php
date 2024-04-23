@@ -1521,7 +1521,7 @@ class ilObjectGUI implements ImplementsCreationCallback
 
                 $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_read'), true);
                 $parent_ref_id = $this->tree->getParentNodeData($this->object->getRefId())['ref_id'];
-                $this->ctrl->redirectToURL(ilLink::_getLink($parent_ref_id));
+                $this->ctrl->redirectToURL(ilLink::_getLink(intval($parent_ref_id)));
             }
 
             $this->tpl->setOnScreenMessage('failure', $this->lng->txt('msg_no_perm_read'), true);
