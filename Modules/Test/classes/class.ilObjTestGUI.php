@@ -195,7 +195,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             $this->ctrl->setParameter($this, 'prev_qid', $this->testrequest->raw('prev_qid'));
         }
 
-        if (!$this->getCreationMode() && isset($this->testQuestionSetConfigFactory) && $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken()) {
+        if ($this->object instanceof ilObjTest && !$this->getCreationMode() && $this->testQuestionSetConfigFactory->getQuestionSetConfig()->areDepenciesBroken()) {
             if (!$this->testQuestionSetConfigFactory->getQuestionSetConfig()->isValidRequestOnBrokenQuestionSetDepencies($next_class, $cmd)) {
                 $this->ctrl->redirectByClass('ilObjTestGUI', 'infoScreen');
             }
@@ -2106,10 +2106,10 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
             return;
         }
         */
-
-        $this->getTabsManager()->getQuestionsSubTabs();
-        $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
-
+        if ($this->object instanceof ilObjTest) {
+            $this->getTabsManager()->getQuestionsSubTabs();
+            $this->getTabsManager()->activateSubTab(ilTestTabsManager::SUBTAB_ID_QST_LIST_VIEW);
+        }
         // #11631, #12994
         $this->ctrl->setParameter($this, 'q_id', '');
 
