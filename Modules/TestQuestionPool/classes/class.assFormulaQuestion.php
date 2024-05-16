@@ -297,8 +297,13 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                     isset($userdata[$result]["value"])) {
                     $input = $this->generateResultInputHtml($result, $userdata[$result]["value"]);
                 } elseif ($forsolution) {
-                    $value = $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId());
-                    $value = sprintf("%." . $resObj->getPrecision() . "f", $value);
+                    $value = ' ';
+                    if (!is_array($userdata)) {
+                        $value = $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId());
+                        $value = sprintf("%." . $resObj->getPrecision() . "f", $value);
+                    }
+                    /*$value = $resObj->calculateFormula($this->getVariables(), $this->getResults(), parent::getId());
+                    $value = sprintf("%." . $resObj->getPrecision() . "f", $value); */
 
                     if ($is_frac) {
                         $value = assFormulaQuestionResult::convertDecimalToCoprimeFraction($value);
@@ -309,7 +314,7 @@ class assFormulaQuestion extends assQuestion implements iQuestionCondition
                         $value = ' value="' . $value . '"';
                     }
 
-                    $input = '<span class="ilc_qinput_TextInput solutionbox">' . ilLegacyFormElementsUtil::prepareFormOutput(
+                    $input = '<span style="height: 24px;" class="ilc_qinput_TextInput solutionbox">' . ilLegacyFormElementsUtil::prepareFormOutput(
                         $value
                     ) . '</span>';
                 } else {
