@@ -6316,7 +6316,7 @@ class ilObjTest extends ilObject implements ilMarkSchemaAware, ilEctsGradesEnabl
         $newObj->setAnswerFeedback($this->getAnswerFeedback());
         $newObj->setAnswerFeedbackPoints($this->getAnswerFeedbackPoints());
         $newObj->setAuthor($this->getAuthor());
-        $newObj->setLimitUsersEnabled($this->isLimitUsersEnabled());
+        $newObj->setLimitUsersEnabled($this->isLimitUsersEnabled() ?? false);
         $newObj->setAllowedUsers($this->getAllowedUsers());
         $newObj->setAllowedUsersTimeGap($this->getAllowedUsersTimeGap());
         $newObj->setECTSFX($this->getECTSFX());
