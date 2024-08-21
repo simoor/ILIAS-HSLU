@@ -3756,7 +3756,8 @@ class ilObjForumGUI extends ilObjectGUI implements ilDesktopItemHandling, ilForu
             }
 
             $tblThr = new ilTable2GUI($this);
-            $tblThr->setId('il_frm_thread_move_table_' . $this->object->getRefId());
+           // $tblThr->setId('il_frm_thread_move_tbl_' . $this->object->getRefId());
+            $tblThr->setId('il_frm_thread_move_tbl_6326966');
             $tblThr->setTitle($this->lng->txt('move_chosen_topics'));
             $tblThr->addColumn($this->lng->txt('subject'), 'top_name', '100%');
             $tblThr->disable('header');
