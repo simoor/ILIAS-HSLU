@@ -205,7 +205,7 @@ class ilRoleAssignmentTableGUI extends ilTable2GUI
 
                 $parent_node = $tree->getNodeData($rolf2);
 
-                $role["description"] = $this->lng->txt("obj_" . $parent_node["type"]) . "&nbsp;(#" . $parent_node["obj_id"] . ")";
+                $role["description"] = array_key_exists('type',$parent_node) ? $this->lng->txt("obj_" . $parent_node["type"]) . "&nbsp;(#" . $parent_node["obj_id"] . ")" : "(Unknown)";
             }
 
             $role_ids[$counter] = $role["obj_id"];
