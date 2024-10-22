@@ -114,7 +114,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
         $button->setCaption('btn_previous');
         $button->setUrl($backUrl);
         $toolbar->addButtonInstance($button);
-
+/*
         if ($this->object->getShowExamviewPdf()) {
             $pdfUrl = $this->ctrl->getLinkTarget($this, 'pdfDownload');
 
@@ -124,7 +124,7 @@ class ilTestSubmissionReviewGUI extends ilTestServiceGUI
             $button->setTarget(ilButton::FORM_TARGET_BLANK);
             $toolbar->addButtonInstance($button);
         }
-
+*/
         $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 1);
         $nextUrl = $this->ctrl->getLinkTarget($this->testOutputGUI, ilTestPlayerCommands::FINISH_TEST);
         $this->ctrl->setParameter($this->testOutputGUI, 'reviewed', 0);
