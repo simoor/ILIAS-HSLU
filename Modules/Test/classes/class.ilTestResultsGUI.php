@@ -347,7 +347,7 @@ class ilTestResultsGUI
 
             case ilObjTest::SCORE_REPORTING_DATE:
 
-                $date = new ilDateTime($this->testObj->getReportingDate(), IL_CAL_TIMESTAMP);
+                $date = new ilDateTime($this->testObj->getReportingDate(), IL_CAL_TIMESTAMP, 'UTC');
 
                 if (!$this->testObj->hasAnyTestResult($this->getTestSession())) {
                     $message = sprintf(

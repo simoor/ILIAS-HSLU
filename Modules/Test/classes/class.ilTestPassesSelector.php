@@ -269,9 +269,11 @@ class ilTestPassesSelector
 
         $matches = array_map('intval', $matches);
 
-        $repTS = mktime($matches[4], $matches[5], $matches[6], $matches[2], $matches[3], $matches[1]);
+        $timeNow = new DateTimeImmutable("now", new DateTimeZone("UTC"));
+        $reportingDate = new DateTimeImmutable("now", new DateTimeZone("UTC"));
+        $reportingDate = $reportingDate->setDate($matches[1],$matches[2], $matches[3])->setTime($matches[4], $matches[5], $matches[6]);
 
-        return time() >= $repTS;
+        return $timeNow >= $reportingDate;
     }
 
     private function isProcessingTimeReached($pass): bool
