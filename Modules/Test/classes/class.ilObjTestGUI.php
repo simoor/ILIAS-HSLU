@@ -2797,7 +2797,7 @@ class ilObjTestGUI extends ilObjectGUI implements ilCtrlBaseClassInterface
                 #$info->addProperty($this->lng->txt("tst_score_reporting_date"), $txt_reporting_date);
                 $info->addProperty(
                     $this->lng->txt('tst_score_reporting_date'),
-                    ilDatePresentation::formatDate(new ilDateTime($reporting_date, IL_CAL_TIMESTAMP))
+                    ilDatePresentation::formatDate(new ilDateTime($reporting_date, IL_CAL_TIMESTAMP, 'UTC'))
                 );
             }
 
